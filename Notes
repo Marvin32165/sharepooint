@@ -1,0 +1,15 @@
+SRV-AD-01
+4go ram
+172.16.0.1
+
+Sharepooint
+8go ram
+172.16.0.2
+
+SQL
+16go ram
+172.16.0.3
+
+
+Réseau
+172.16.0.x/24
