@@ -3,423 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SharePoint — Guide d'apprentissage : Server vs Online</title>
+    <title>SharePoint — Théorie &amp; Pratique</title>
 
-    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* ============================================================
-           SYSTÈME DE DESIGN — tokens  (version sobre)
-           ============================================================ */
+        /* ── TOKENS ── */
         :root {
-            /* Couleurs structurelles — neutres, calmes */
-            --ink:        #16222e;   /* texte principal, ardoise profonde */
-            --ink-soft:   #586573;   /* texte secondaire */
-            --paper:      #f4f5f7;   /* fond de page, gris froid très clair */
-            --surface:    #ffffff;   /* cartes */
-            --line:       #e3e7ec;   /* filets, bordures */
+            --ink:         #111827;
+            --ink-soft:    #4B5563;
+            --ink-faint:   #9CA3AF;
+            --page:        #F1F3F8;
+            --surface:     #FFFFFF;
+            --border:      #E5E7EB;
+            --border-md:   #D1D5DB;
 
-            /* Code couleur pédagogique — désaturé, discret */
-            --server:     #294a63;   /* SharePoint Server : sur site, ancré */
-            --server-2:   #36617f;
-            --server-soft:#eaeff4;
-            --online:     #2d7d8f;   /* SharePoint Online : cloud, sobre */
-            --online-2:   #3a93a6;
-            --online-soft:#e7f1f3;
+            --server:      #1E40AF;
+            --server-2:    #2563EB;
+            --server-soft: #EFF6FF;
+            --online:      #0D9488;
+            --online-2:    #14B8A6;
+            --online-soft: #F0FDFA;
 
-            /* Accents — un seul, retenu */
-            --accent:     #9c7430;   /* ocre sourd — repère "à retenir" */
-            --accent-soft:#f5f0e6;
-            --yes:        #3f7d5f;
-            --no:         #b15a48;
-            --warn:       #a87b35;
+            --theorie:     #6366F1;
+            --theorie-soft:#EEF2FF;
+            --pratique:    #D97706;
+            --pratique-soft:#FFFBEB;
 
-            /* Typo */
-            --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
-            --font-body:    'Spectral', Georgia, 'Times New Roman', serif;
-            --font-mono:    'IBM Plex Mono', 'Cascadia Code', Consolas, monospace;
+            --yes:   #059669;
+            --no:    #DC2626;
+            --warn:  #D97706;
 
-            /* Espacement & rayon */
-            --r:   8px;
-            --r-sm: 5px;
-            --shadow: 0 1px 1px rgba(22,34,46,.03), 0 4px 16px rgba(22,34,46,.04);
+            --font-display: 'Syne',        system-ui, sans-serif;
+            --font-body:    'Inter',        system-ui, sans-serif;
+            --font-mono:    'JetBrains Mono','Cascadia Code', Consolas, monospace;
+
+            --r:    6px;
+            --r-sm: 3px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         html { scroll-behavior: auto; }
-        @media (prefers-reduced-motion: no-preference) {
-            html { scroll-behavior: smooth; }
-        }
+        @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
         body {
             font-family: var(--font-body);
-            background: var(--paper);
+            background: var(--page);
             color: var(--ink);
             line-height: 1.72;
-            font-size: 17px;
+            font-size: 16px;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ============================================================
-           BARRE DE PROGRESSION DE LECTURE
-           ============================================================ */
-        .progress {
-            position: fixed; inset: 0 0 auto 0;
-            height: 2px; z-index: 100; background: transparent;
-        }
+        /* ── PROGRESS ── */
+        .progress { position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 100; }
         .progress__bar {
             height: 100%; width: 100%;
-            background: var(--online);
+            background: linear-gradient(90deg, var(--theorie), var(--pratique));
             transform: scaleX(0); transform-origin: left;
         }
 
-        /* ============================================================
-           HERO — sobre : confrontation Server / Online
-           ============================================================ */
-        .hero {
-            background: #15222e;
-            color: #fff;
-            padding: 84px 32px 64px;
-            border-bottom: 3px solid var(--online);
-        }
-        .hero__inner { max-width: 1080px; margin: 0 auto; }
+        /* ── HERO ── */
+        .hero { background: #0F172A; color: #fff; padding: 80px 32px 64px; }
+        .hero__inner { max-width: 1100px; margin: 0 auto; }
         .eyebrow {
             font-family: var(--font-mono);
-            font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
-            color: var(--online-2); margin-bottom: 22px;
+            font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+            color: #475569; margin-bottom: 22px;
         }
         .hero__title {
             font-family: var(--font-display);
-            font-weight: 500; font-size: clamp(2.2rem, 5.4vw, 3.6rem);
-            line-height: 1.08; letter-spacing: -.015em; margin-bottom: 18px;
+            font-weight: 800;
+            font-size: clamp(2.4rem, 5.5vw, 4rem);
+            line-height: 1.04; letter-spacing: -.02em;
+            color: #F8FAFC; margin-bottom: 16px;
         }
         .hero__lead {
-            font-size: 1.12rem; color: #b9c4cf; max-width: 50ch; margin-bottom: 44px;
+            font-size: 1rem; color: #94A3B8;
+            max-width: 54ch; margin-bottom: 48px; line-height: 1.65;
         }
-
-        .versus { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; }
+        .versus { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; max-width: 680px; }
         .versus__card {
-            padding: 24px 24px 26px; border-radius: var(--r);
-            border: 1px solid rgba(255,255,255,.14);
-            background: rgba(255,255,255,.025);
+            padding: 22px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.03);
         }
-        .versus__card--server { border-left: 3px solid var(--server-2); }
-        .versus__card--online { border-left: 3px solid var(--online); text-align: right; }
-        .versus__tag {
-            font-family: var(--font-mono); font-size: .64rem; letter-spacing: .16em;
-            text-transform: uppercase; color: #9fb0bd;
-        }
-        .versus__card h3 {
-            font-family: var(--font-display); font-weight: 600; font-size: 1.4rem;
-            margin: 10px 0 8px; letter-spacing: -.01em;
-        }
-        .versus__card p { font-size: .94rem; color: #aab6c2; }
-        .versus__pivot {
-            display: grid; place-items: center; font-family: var(--font-display);
-            font-style: italic; font-weight: 400; font-size: 1rem;
-            color: #6c7c8a; padding: 0 18px;
-        }
+        .versus__card--server { border-left: 3px solid #2563EB; }
+        .versus__card--online { border-left: 3px solid #0D9488; text-align: right; }
+        .versus__tag { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: #64748B; }
+        .versus__card h3 { font-weight: 600; font-size: 1.15rem; margin: 8px 0 6px; color: #F1F5F9; }
+        .versus__card p { font-size: .86rem; color: #94A3B8; }
+        .versus__pivot { display: grid; place-items: center; font-family: var(--font-mono); font-size: .88rem; color: #334155; padding: 0 16px; }
 
-        /* ============================================================
-           MISE EN PAGE — sommaire collant + contenu
-           ============================================================ */
+        /* ── LAYOUT ── */
         .layout {
-            max-width: 1180px; margin: 0 auto; padding: 56px 32px 80px;
-            display: grid; grid-template-columns: 250px 1fr; gap: 56px; align-items: start;
+            max-width: 1180px; margin: 0 auto;
+            padding: 52px 32px 80px;
+            display: grid; grid-template-columns: 264px 1fr; gap: 52px; align-items: start;
         }
 
-        /* Sommaire */
+        /* ── TOC ── */
         .toc { position: sticky; top: 28px; }
-        .toc__label {
-            font-family: var(--font-mono); font-size: .66rem; letter-spacing: .2em;
-            text-transform: uppercase; color: var(--ink-soft); margin-bottom: 14px;
-            padding-left: 14px;
+        .toc__group { margin-bottom: 6px; }
+        .toc__group-label {
+            font-family: var(--font-mono);
+            font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+            font-weight: 500; color: var(--theorie);
+            padding: 10px 14px 6px;
+            display: flex; align-items: center; gap: 7px;
         }
+        .toc__group-label::before {
+            content: ''; display: inline-block;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: currentColor; flex-shrink: 0;
+        }
+        .toc__group-label--pratique { color: var(--pratique); }
         .toc__list { list-style: none; }
         .toc__link {
-            display: flex; gap: 12px; align-items: baseline;
+            display: flex; gap: 10px; align-items: baseline;
             text-decoration: none; color: var(--ink-soft);
-            font-family: var(--font-display); font-size: .9rem;
-            padding: 7px 14px; border-left: 2px solid var(--line);
-            transition: color .15s, border-color .15s, background .15s;
+            font-family: var(--font-body); font-size: .83rem;
+            padding: 5px 14px; border-left: 2px solid var(--border);
+            transition: color .12s, background .12s; line-height: 1.4;
         }
-        .toc__link span { font-family: var(--font-mono); font-size: .72rem; opacity: .6; }
-        .toc__link:hover { color: var(--ink); background: #edf0f4; }
-        .toc__link.is-active {
-            color: var(--server); border-left-color: var(--online);
-            font-weight: 600; background: #edf0f4;
+        .toc__link span { font-family: var(--font-mono); font-size: .64rem; opacity: .5; flex-shrink: 0; }
+        .toc__link:hover { color: var(--ink); background: #E8EAF5; }
+        .toc__group:first-child .toc__link.is-active {
+            color: var(--ink); font-weight: 600;
+            background: #EEF0F8; border-left-color: var(--theorie);
         }
-        .toc__link.is-active span { color: var(--online); opacity: 1; }
+        .toc__group:last-child .toc__link.is-active {
+            color: var(--ink); font-weight: 600;
+            background: #FEF9EE; border-left-color: var(--pratique);
+        }
 
-        /* ============================================================
-           CHAPITRES
-           ============================================================ */
+        /* ── SECTION BANNERS ── */
+        .section-banner {
+            background: #0F172A; border-radius: var(--r);
+            margin: 16px 0 22px;
+            padding: 26px 32px;
+            display: flex; align-items: center; gap: 18px;
+        }
+        .section-banner__accent { width: 4px; height: 44px; border-radius: 2px; flex-shrink: 0; }
+        .section-banner--theorie .section-banner__accent { background: var(--theorie); }
+        .section-banner--pratique .section-banner__accent { background: var(--pratique); }
+        .section-banner__label {
+            font-family: var(--font-display); font-weight: 800;
+            font-size: 1.55rem; letter-spacing: -.01em; color: #F8FAFC;
+        }
+        .section-banner__desc { font-size: .84rem; color: #64748B; margin-top: 3px; }
+        .section-banner__desc code { background: rgba(255,255,255,.08); color: #FCD34D; border: none; }
+
+        /* ── CHAPTERS ── */
         .content { min-width: 0; }
         .chapter {
-            background: var(--surface); border: 1px solid var(--line);
-            border-radius: var(--r); box-shadow: var(--shadow);
-            padding: 46px 50px; margin-bottom: 28px; scroll-margin-top: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--theorie);
+            border-radius: var(--r);
+            padding: 44px 48px; margin-bottom: 18px;
+            scroll-margin-top: 28px;
         }
+        .chapter--pratique { border-left-color: var(--pratique); }
+
         .chapter__num {
-            font-family: var(--font-mono); font-size: .76rem; letter-spacing: .12em;
-            color: var(--online); margin-bottom: 8px;
+            font-family: var(--font-mono); font-size: .67rem;
+            letter-spacing: .14em; color: var(--theorie); margin-bottom: 6px;
         }
+        .chapter--pratique .chapter__num { color: var(--pratique); }
         .chapter__title {
-            font-family: var(--font-display); font-weight: 600;
-            font-size: 1.78rem; letter-spacing: -.02em; line-height: 1.12;
-            color: var(--ink); margin-bottom: 12px;
+            font-weight: 700; font-size: 1.58rem;
+            letter-spacing: -.02em; line-height: 1.14;
+            color: var(--ink); margin-bottom: 10px;
         }
         .chapter__intro {
-            font-size: 1.04rem; color: var(--ink-soft);
-            border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 28px;
+            font-size: .97rem; color: var(--ink-soft);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 22px; margin-bottom: 26px; line-height: 1.65;
         }
 
-        .content h3 {
-            font-family: var(--font-display); font-weight: 600;
-            font-size: 1.14rem; color: var(--ink); letter-spacing: -.01em;
-            margin: 32px 0 10px;
-        }
-        .content h4 {
-            font-family: var(--font-display); font-weight: 500;
-            font-size: 1rem; color: var(--server); margin: 20px 0 6px;
-        }
-        .content p { margin-bottom: 14px; }
-        .content ul, .content ol { margin: 10px 0 16px 4px; padding-left: 22px; }
-        .content li { margin-bottom: 8px; }
+        .content h3 { font-weight: 600; font-size: 1.06rem; color: var(--ink); margin: 28px 0 9px; letter-spacing: -.01em; }
+        .content h4 { font-weight: 600; font-size: .93rem; color: var(--server); margin: 16px 0 5px; }
+        .content p { margin-bottom: 12px; }
+        .content ul, .content ol { margin: 8px 0 13px 4px; padding-left: 22px; }
+        .content li { margin-bottom: 6px; line-height: 1.62; }
         .content strong { color: var(--ink); font-weight: 600; }
-        .content em { color: var(--server); font-style: italic; }
+        .content em { font-style: italic; color: #374151; }
 
         code, .mono {
-            font-family: var(--font-mono); font-size: .84em;
-            background: #edf0f4; padding: 1px 6px; border-radius: 4px; color: var(--server);
+            font-family: var(--font-mono); font-size: .81em;
+            background: #F1F5F9; padding: 1px 6px;
+            border-radius: 3px; color: #1E40AF;
+            border: 1px solid #E2E8F0;
         }
 
-        /* Puces "tags" Server / Online réutilisables dans le texte */
-        .pill {
-            font-family: var(--font-mono); font-size: .68rem; letter-spacing: .03em;
-            padding: 2px 9px; border-radius: 999px; white-space: nowrap;
-        }
+        /* ── PILLS ── */
+        .pill { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
         .pill--server { background: var(--server-soft); color: var(--server); }
-        .pill--online { background: var(--online-soft); color: #1f6373; }
+        .pill--online { background: var(--online-soft); color: #0F766E; }
 
-        /* ============================================================
-           ENCART "À RETENIR"
-           ============================================================ */
+        /* ── TAKEAWAY ── */
         .takeaway {
-            margin-top: 32px; background: #f3f5f7;
-            border: 1px solid var(--line); border-left: 3px solid var(--online);
-            border-radius: var(--r-sm); padding: 18px 22px;
+            margin-top: 26px;
+            background: var(--theorie-soft);
+            border: 1px solid rgba(99,102,241,.15);
+            border-left: 3px solid var(--theorie);
+            border-radius: var(--r-sm); padding: 15px 18px;
         }
         .takeaway__label {
-            font-family: var(--font-mono); font-size: .68rem; letter-spacing: .16em;
-            text-transform: uppercase; color: var(--ink-soft); font-weight: 500;
-            margin-bottom: 6px;
+            font-family: var(--font-mono); font-size: .62rem;
+            letter-spacing: .16em; text-transform: uppercase;
+            color: #4338CA; font-weight: 500; margin-bottom: 5px;
         }
-        .takeaway p { margin: 0; font-size: .97rem; color: var(--ink-soft); }
-        .takeaway strong { color: var(--ink); }
+        .takeaway p { margin: 0; font-size: .93rem; color: #3730A3; }
+        .takeaway strong { color: #1E1B4B; }
 
-        /* Variante avertissement (sobre, ocre) */
-        .takeaway--warn { border-left-color: var(--accent); background: var(--accent-soft); }
-        .takeaway--warn .takeaway__label { color: #7e5e20; }
-        .takeaway--warn p { color: #5f4a1c; }
-        .takeaway--warn strong { color: #463716; }
-
-        /* ============================================================
-           TABLEAUX
-           ============================================================ */
-        .table-wrap { overflow-x: auto; margin: 18px 0; border-radius: var(--r-sm); }
-        table { border-collapse: collapse; width: 100%; font-family: var(--font-display); font-size: .9rem; }
-        thead th {
-            background: var(--ink); color: #fff; text-align: left;
-            padding: 11px 16px; font-weight: 500; white-space: nowrap;
+        .takeaway--warn {
+            background: #FFFBEB;
+            border: 1px solid rgba(217,119,6,.2);
+            border-left: 3px solid var(--warn);
         }
-        tbody td { padding: 10px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+        .takeaway--warn .takeaway__label { color: #B45309; }
+        .takeaway--warn p { color: #78350F; }
+        .takeaway--warn strong { color: #451A03; }
+
+        /* ── TIP (pratique) ── */
+        .tip {
+            margin-top: 12px;
+            background: var(--pratique-soft);
+            border: 1px solid rgba(217,119,6,.2);
+            border-left: 3px solid var(--pratique);
+            border-radius: var(--r-sm); padding: 13px 17px;
+        }
+        .tip__label {
+            font-family: var(--font-mono); font-size: .62rem;
+            letter-spacing: .16em; text-transform: uppercase;
+            color: #B45309; font-weight: 500; margin-bottom: 4px;
+        }
+        .tip p { margin: 0; font-size: .91rem; color: #78350F; }
+        .tip strong { color: #451A03; }
+
+        /* ── TERMINAL ── */
+        .terminal { border-radius: var(--r); overflow: hidden; margin: 16px 0; border: 1px solid #1E293B; }
+        .terminal__bar {
+            background: #1E293B; padding: 8px 14px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .terminal__dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+        .terminal__title { font-family: var(--font-mono); font-size: .64rem; color: #475569; margin-left: 8px; flex: 1; text-align: center; }
+        .terminal__code {
+            background: #0F172A; color: #CBD5E1;
+            padding: 15px 20px;
+            font-family: var(--font-mono); font-size: .8rem;
+            line-height: 1.78; overflow-x: auto; margin: 0; white-space: pre;
+        }
+
+        /* ── STEPS ── */
+        .steps { list-style: none; padding: 0; margin: 20px 0; }
+        .step { display: grid; grid-template-columns: 42px 1fr; gap: 0 15px; align-items: start; }
+        .step__num {
+            font-family: var(--font-mono); font-size: .67rem; font-weight: 500;
+            color: var(--pratique); background: var(--pratique-soft);
+            border: 1px solid rgba(217,119,6,.25);
+            border-radius: var(--r-sm); padding: 4px 0;
+            text-align: center; letter-spacing: .04em; margin-top: 2px;
+        }
+        .step__body { padding-bottom: 20px; border-bottom: 1px dashed var(--border); margin-bottom: 20px; }
+        .step:last-child .step__body { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .step__body > strong:first-child { display: block; font-size: .97rem; margin-bottom: 5px; color: var(--ink); }
+
+        /* ── TABLES ── */
+        .table-wrap { overflow-x: auto; margin: 14px 0; border-radius: var(--r-sm); border: 1px solid var(--border); }
+        table { border-collapse: collapse; width: 100%; font-family: var(--font-body); font-size: .875rem; }
+        thead th { background: var(--ink); color: #fff; text-align: left; padding: 10px 14px; font-weight: 600; white-space: nowrap; font-size: .81rem; }
+        tbody td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
         tbody tr:last-child td { border-bottom: none; }
-        tbody tr:nth-child(even) td { background: #fafbfc; }
+        tbody tr:nth-child(even) td { background: #FAFAFA; }
         tbody td:first-child { font-weight: 600; color: var(--ink); }
 
-        /* Colonnes color-codées Server / Online */
         .th-server { background: var(--server) !important; }
         .th-online { background: var(--online) !important; }
         .col-server { background: var(--server-soft) !important; }
         .col-online { background: var(--online-soft) !important; }
 
-        .yes { color: var(--yes); font-weight: 600; }
-        .no  { color: var(--no);  font-weight: 600; }
+        .yes     { color: var(--yes); font-weight: 600; }
+        .no      { color: var(--no);  font-weight: 600; }
         .partial { color: var(--warn); font-weight: 600; }
-        .note { font-size: .82rem; color: var(--ink-soft); margin-top: 8px; font-family: var(--font-body); }
+        .note    { font-size: .79rem; color: var(--ink-soft); margin-top: 7px; }
 
-        /* Pastilles "qui gère quoi" (modèles de déploiement) */
-        .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; vertical-align: middle; }
-        .dot--you   { background: var(--server); }
-        .dot--cloud { background: #fff; border: 1.5px solid var(--online); }
-        .legend { font-size: .82rem; color: var(--ink-soft); margin-top: 8px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
-        .legend span { display: inline-flex; align-items: center; gap: 7px; }
-
-        /* ============================================================
-           FRISE CHRONOLOGIQUE
-           ============================================================ */
-        .timeline { position: relative; margin: 24px 0 8px; padding-left: 4px; }
-        .timeline::before {
-            content: ""; position: absolute; left: 118px; top: 6px; bottom: 6px;
-            width: 2px; background: var(--line);
-        }
-        .tl-item { display: grid; grid-template-columns: 104px 24px 1fr; align-items: start; margin-bottom: 18px; }
-        .tl-year { text-align: right; font-family: var(--font-mono); font-size: .8rem; font-weight: 500; color: var(--server); padding-top: 1px; }
+        /* ── TIMELINE ── */
+        .timeline { position: relative; margin: 20px 0 8px; padding-left: 4px; }
+        .timeline::before { content: ""; position: absolute; left: 106px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+        .tl-item { display: grid; grid-template-columns: 94px 24px 1fr; align-items: start; margin-bottom: 15px; }
+        .tl-year { text-align: right; font-family: var(--font-mono); font-size: .74rem; font-weight: 500; color: var(--server); padding-top: 1px; }
         .tl-dot { display: grid; place-items: center; }
-        .tl-dot::after {
-            content: ""; width: 10px; height: 10px; border-radius: 50%;
-            background: var(--server); border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--server);
-            margin-top: 6px;
-        }
+        .tl-dot::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--server); border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--server); margin-top: 6px; }
         .tl-item--now .tl-year { color: var(--online); }
         .tl-item--now .tl-dot::after { background: var(--online); box-shadow: 0 0 0 1.5px var(--online); }
-        .tl-body { font-size: .94rem; }
+        .tl-body { font-size: .88rem; }
 
-        /* ============================================================
-           PILE DES COUCHES D'ABSTRACTION
-           ============================================================ */
-        .stack { margin: 22px 0; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); }
-        .layer { padding: 15px 22px; color: #fff; display: flex; align-items: baseline; gap: 14px; }
-        .layer__n { font-family: var(--font-mono); font-size: .72rem; opacity: .8; }
-        .layer__body strong { font-family: var(--font-display); font-weight: 600; color: #fff; }
-        .layer__body span { display: block; font-size: .82rem; opacity: .92; margin-top: 2px; }
+        /* ── STACK ── */
+        .stack { margin: 18px 0; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); }
+        .layer { padding: 13px 20px; color: #fff; display: flex; align-items: baseline; gap: 14px; }
+        .layer__n { font-family: var(--font-mono); font-size: .67rem; opacity: .75; }
+        .layer__body strong { font-weight: 600; color: #fff; }
+        .layer__body span { display: block; font-size: .78rem; opacity: .9; margin-top: 2px; font-family: var(--font-mono); }
         .layer-1 { background: var(--online); }
-        .layer-2 { background: #347385; }
-        .layer-3 { background: #3a6173; }
-        .layer-4 { background: var(--server-2); }
+        .layer-2 { background: #0F766E; }
+        .layer-3 { background: #1E5A7A; }
+        .layer-4 { background: #1D4E8A; }
         .layer-5 { background: var(--server); }
 
-        /* ============================================================
-           CARTES (responsabilité)
-           ============================================================ */
-        .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 22px 0; }
-        .card { border-radius: var(--r-sm); padding: 18px 20px; border: 1px solid var(--line); background: #fafbfc; }
-        .card h4 { margin: 0 0 10px; font-family: var(--font-display); }
-        .card ul { margin: 0; padding-left: 20px; }
-        .card li { font-size: .9rem; }
-        .card--ms { border-left: 3px solid var(--accent); }
-        .card--ms h4 { color: #7e5e20; }
+        /* ── CARDS ── */
+        .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin: 18px 0; }
+        .card { border-radius: var(--r-sm); padding: 15px 17px; border: 1px solid var(--border); background: #FAFAFA; }
+        .card h4 { margin: 0 0 8px; }
+        .card ul { margin: 0; padding-left: 18px; }
+        .card li { font-size: .86rem; }
+        .card--ms { border-left: 3px solid var(--warn); }
+        .card--ms h4 { color: #92400E; }
         .card--you { border-left: 3px solid var(--server); }
         .card--you h4 { color: var(--server); }
 
-        /* Schéma d'architecture physique en tiers */
-        .arch { background: #f7f9fb; border: 1px solid var(--line); border-radius: var(--r); padding: 24px; margin: 22px 0; }
-        .arch__node {
-            max-width: 460px; margin: 0 auto; color: #fff; border-radius: var(--r-sm);
-            padding: 12px 18px; text-align: center;
-        }
-        .arch__node strong { font-family: var(--font-display); }
-        .arch__node span { display: block; font-size: .78rem; opacity: .92; margin-top: 2px; font-family: var(--font-mono); }
+        /* ── ARCH ── */
+        .arch { background: #F8FAFC; border: 1px solid var(--border); border-radius: var(--r); padding: 22px; margin: 18px 0; }
+        .arch__node { max-width: 440px; margin: 0 auto; color: #fff; border-radius: var(--r-sm); padding: 11px 16px; text-align: center; }
+        .arch__node strong { font-weight: 600; }
+        .arch__node span { display: block; font-size: .74rem; opacity: .9; margin-top: 2px; font-family: var(--font-mono); }
         .arch__node--wfe { background: var(--online); }
-        .arch__node--app { background: var(--server-2); }
+        .arch__node--app { background: #1D4E8A; }
         .arch__node--sql { background: var(--server); }
-        .arch__client { text-align: center; font-family: var(--font-mono); font-size: .78rem; color: var(--ink-soft); margin-bottom: 8px; }
-        .arch__arrow { text-align: center; color: #9fb0bd; font-size: 1.05rem; line-height: 1.4; }
+        .arch__client { text-align: center; font-family: var(--font-mono); font-size: .72rem; color: var(--ink-soft); margin-bottom: 6px; }
+        .arch__arrow { text-align: center; color: var(--ink-faint); font-size: 1rem; line-height: 1.4; }
 
-        /* Modèle logique — hiérarchie d'objets emboîtés */
-        .model { border: 1px solid var(--line); border-radius: var(--r); padding: 20px; margin: 22px 0; background: #f7f9fb; }
-        .model__box { border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; padding: 13px 16px; margin-top: 12px; }
+        /* ── MODEL ── */
+        .model { border: 1px solid var(--border); border-radius: var(--r); padding: 18px; margin: 18px 0; background: #F8FAFC; }
+        .model__box { border: 1px solid var(--border); border-radius: var(--r-sm); background: #fff; padding: 11px 13px; margin-top: 10px; }
         .model__box:first-child { margin-top: 0; }
-        .model__h { font-family: var(--font-display); font-weight: 600; font-size: .96rem; color: var(--ink); }
-        .model__h small { display: block; font-family: var(--font-body); font-weight: 400; font-size: .8rem; color: var(--ink-soft); margin-top: 2px; }
-        .model--farm   { border-left: 3px solid var(--server); }
-        .model--svc    { border-left: 3px solid var(--server-2); }
-        .model--web    { border-left: 3px solid var(--online); }
-        .model--db     { border-left: 3px solid var(--online-2); }
-        .model--sc     { border-left: 3px solid var(--online-2); background: var(--online-soft); }
-        .model__svc-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .svc { font-family: var(--font-mono); font-size: .72rem; padding: 4px 9px; border-radius: 5px; background: var(--server-soft); color: var(--server); }
-        .model__nest { margin-left: 16px; }
+        .model__h { font-weight: 600; font-size: .9rem; color: var(--ink); }
+        .model__h small { display: block; font-weight: 400; font-size: .74rem; color: var(--ink-soft); margin-top: 2px; }
+        .model--farm { border-left: 3px solid var(--server); }
+        .model--svc  { border-left: 3px solid #1D4E8A; }
+        .model--web  { border-left: 3px solid var(--online); }
+        .model--db   { border-left: 3px solid var(--online-2); }
+        .model--sc   { border-left: 3px solid var(--online-2); background: var(--online-soft); }
+        .model__svc-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+        .svc { font-family: var(--font-mono); font-size: .67rem; padding: 3px 8px; border-radius: 4px; background: var(--server-soft); color: var(--server); }
+        .model__nest { margin-left: 14px; }
 
-        /* Topologies */
-        .topo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 22px 0; }
-        .topo__item { border: 1px solid var(--line); border-radius: var(--r-sm); padding: 18px; background: #fafbfc; }
-        .topo__head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .topo__n { font-family: var(--font-mono); font-size: .76rem; background: var(--ink); color: #fff; width: 26px; height: 26px; border-radius: 6px; display: grid; place-items: center; flex-shrink: 0; }
-        .topo__title { font-family: var(--font-display); font-weight: 600; font-size: .98rem; }
-        .topo__diagram { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
-        .srv { font-family: var(--font-mono); font-size: .72rem; padding: 5px 9px; border-radius: 5px; border: 1px dashed #b8c4d0; color: var(--ink-soft); background: #fff; }
+        /* ── TOPO ── */
+        .topo { display: grid; grid-template-columns: repeat(2,1fr); gap: 13px; margin: 18px 0; }
+        .topo__item { border: 1px solid var(--border); border-radius: var(--r-sm); padding: 15px; background: #FAFAFA; }
+        .topo__head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+        .topo__n { font-family: var(--font-mono); font-size: .7rem; background: var(--ink); color: #fff; width: 23px; height: 23px; border-radius: 4px; display: grid; place-items: center; flex-shrink: 0; }
+        .topo__title { font-weight: 600; font-size: .92rem; }
+        .topo__diagram { display: flex; gap: 5px; flex-wrap: wrap; margin: 8px 0; }
+        .srv { font-family: var(--font-mono); font-size: .66rem; padding: 4px 8px; border-radius: 4px; border: 1px dashed var(--border-md); color: var(--ink-soft); background: #fff; }
         .srv b { color: var(--server); }
-        .topo__item p { font-size: .87rem; margin: 0; color: var(--ink-soft); }
+        .topo__item p { font-size: .84rem; margin: 0; color: var(--ink-soft); }
 
-        /* Matrice d'analyse de risque (probabilité × impact) */
-        .riskgrid { display: grid; grid-template-columns: 132px 1fr 1fr; gap: 8px; margin: 20px 0; }
-        .rg-cell { padding: 14px 16px; border-radius: var(--r-sm); font-size: .85rem; }
-        .rg-head { font-family: var(--font-display); font-weight: 600; text-align: center; align-self: center; color: var(--ink); }
-        .rg-rowhead { font-family: var(--font-display); font-weight: 600; display: flex; align-items: center; color: var(--ink); line-height: 1.25; }
+        /* ── RISK GRID ── */
+        .riskgrid { display: grid; grid-template-columns: 126px 1fr 1fr; gap: 7px; margin: 16px 0; }
+        .rg-cell { padding: 11px 13px; border-radius: var(--r-sm); font-size: .82rem; }
+        .rg-head { font-weight: 600; text-align: center; align-self: center; color: var(--ink); }
+        .rg-rowhead { font-weight: 600; display: flex; align-items: center; color: var(--ink); line-height: 1.25; font-size: .84rem; }
         .rg-q { color: #fff; }
-        .rg-q strong { display: block; font-family: var(--font-display); color: #fff; margin-bottom: 5px; }
-        .rg-q em { color: #fff; opacity: .92; }
-        .rg-green { background: #3f7d5f; }
-        .rg-amber { background: #a87b35; }
-        .rg-red   { background: #b15a48; }
-        @media (max-width: 620px) {
-            .riskgrid { grid-template-columns: 1fr 1fr; }
-            .rg-corner, .rg-rowhead { display: none; }
-        }
+        .rg-q strong { display: block; font-weight: 600; color: #fff; margin-bottom: 3px; }
+        .rg-q em { color: rgba(255,255,255,.88); font-style: italic; }
+        .rg-green { background: #059669; }
+        .rg-amber { background: #D97706; }
+        .rg-red   { background: #DC2626; }
+        .rg-corner { }
 
-        /* ============================================================
-           PIED DE PAGE
-           ============================================================ */
-        footer {
-            background: var(--ink); color: #9fb0bd; text-align: center;
-            padding: 34px 24px; font-family: var(--font-display); font-size: .84rem;
-        }
-        footer strong { color: #fff; font-weight: 500; }
+        /* ── DOT / LEGEND ── */
+        .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+        .dot--you   { background: var(--server); }
+        .dot--cloud { background: #fff; border: 1.5px solid var(--online); }
+        .legend { font-size: .79rem; color: var(--ink-soft); margin-top: 7px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+        .legend span { display: inline-flex; align-items: center; gap: 6px; }
 
-        /* Accessibilité — focus visible */
-        a:focus-visible, .toc__link:focus-visible {
-            outline: 2px solid var(--online); outline-offset: 2px; border-radius: 3px;
-        }
+        /* ── FOOTER ── */
+        footer { background: #0F172A; color: #475569; text-align: center; padding: 30px 24px; font-family: var(--font-body); font-size: .81rem; }
+        footer strong { color: #94A3B8; font-weight: 500; }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
+        a:focus-visible { outline: 2px solid var(--theorie); outline-offset: 2px; border-radius: 2px; }
+
+        /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
-            .layout { grid-template-columns: 1fr; gap: 28px; padding: 32px 20px 60px; }
+            .layout { grid-template-columns: 1fr; gap: 22px; padding: 26px 18px 56px; }
             .toc { position: static; }
-            .toc__list { display: flex; flex-wrap: wrap; gap: 6px; }
-            .toc__link { border-left: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
-            .toc__link.is-active { border-color: var(--online); }
-            .chapter { padding: 30px 22px; }
-            .versus { grid-template-columns: 1fr; gap: 12px; }
-            .versus__pivot { padding: 4px; }
+            .toc__list { display: flex; flex-wrap: wrap; gap: 5px; }
+            .toc__link { border-left: none; border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px; font-size: .77rem; }
+            .chapter { padding: 26px 20px; }
+            .versus { grid-template-columns: 1fr; gap: 10px; max-width: 100%; }
+            .versus__pivot { padding: 3px; }
             .versus__card--online { text-align: left; }
             .cards, .topo { grid-template-columns: 1fr; }
+            .section-banner { padding: 22px 20px; }
         }
         @media (max-width: 520px) {
-            body { font-size: 16px; }
-            .hero { padding: 60px 20px 44px; }
-            .chapter__title { font-size: 1.45rem; }
+            body { font-size: 15px; }
+            .hero { padding: 52px 18px 40px; }
+            .chapter__title { font-size: 1.35rem; }
         }
-
         @media print {
             .toc, .progress { display: none; }
             .layout { grid-template-columns: 1fr; padding: 0; }
-            .chapter { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
-            .hero { background: var(--ink); }
+            .chapter { break-inside: avoid; }
         }
     </style>
 </head>
 <body>
 
-<!-- Barre de progression -->
 <div class="progress"><div class="progress__bar" id="progressBar"></div></div>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
 <header class="hero">
     <div class="hero__inner">
-        <p class="eyebrow">Guide d'apprentissage · Microsoft 365</p>
+        <p class="eyebrow">Guide d'apprentissage · Microsoft 365 · SharePoint Server SE</p>
         <h1 class="hero__title">SharePoint,<br>de la salle serveur au cloud</h1>
-        <p class="hero__lead">Comprendre la plateforme, comparer ses deux visages et savoir lequel choisir — en dix chapitres.</p>
-
+        <p class="hero__lead">10 chapitres de théorie et 8 chapitres pratiques pour comprendre, installer et administrer SharePoint Server Subscription Edition sur Windows Server 2025.</p>
         <div class="versus">
             <div class="versus__card versus__card--server">
                 <span class="versus__tag">Sur site</span>
@@ -436,15 +440,11 @@
     </div>
 </header>
 
-<!-- ============================================================
-     CORPS — sommaire + chapitres
-     ============================================================ -->
 <div class="layout">
 
-    <!-- Sommaire collant -->
     <aside class="toc">
-        <p class="toc__label">Sommaire</p>
-        <nav>
+        <div class="toc__group">
+            <p class="toc__group-label">Théorie</p>
             <ul class="toc__list">
                 <li><a class="toc__link" href="#presentation"><span>01</span> Présentation</a></li>
                 <li><a class="toc__link" href="#comparatif"><span>02</span> Server vs Online</a></li>
@@ -457,13 +457,36 @@
                 <li><a class="toc__link" href="#prerequis"><span>09</span> Prérequis d'installation</a></li>
                 <li><a class="toc__link" href="#backup"><span>10</span> Sauvegarde des données</a></li>
             </ul>
-        </nav>
+        </div>
+        <div class="toc__group">
+            <p class="toc__group-label toc__group-label--pratique">Pratique</p>
+            <ul class="toc__list">
+                <li><a class="toc__link" href="#sql-prep"><span>P01</span> Préparer SQL Server</a></li>
+                <li><a class="toc__link" href="#sp-install"><span>P02</span> Installer SharePoint SE</a></li>
+                <li><a class="toc__link" href="#ferme-config"><span>P03</span> Configurer la ferme</a></li>
+                <li><a class="toc__link" href="#premier-site"><span>P04</span> Premier site</a></li>
+                <li><a class="toc__link" href="#droits"><span>P05</span> Gérer les droits</a></li>
+                <li><a class="toc__link" href="#automatisation"><span>P06</span> Automatiser</a></li>
+                <li><a class="toc__link" href="#powershell-admin"><span>P07</span> PowerShell admin</a></li>
+                <li><a class="toc__link" href="#backup-restore"><span>P08</span> Backup &amp; restore</a></li>
+            </ul>
+        </div>
     </aside>
 
-    <!-- Contenu -->
     <main class="content">
 
-        <!-- ===== 01 — PRÉSENTATION ===== -->
+        <!-- ══════════════════════════════════════════════════════════
+             SECTION : THÉORIE
+             ══════════════════════════════════════════════════════════ -->
+        <div class="section-banner section-banner--theorie">
+            <div class="section-banner__accent"></div>
+            <div>
+                <div class="section-banner__label">Théorie</div>
+                <div class="section-banner__desc">Comprendre SharePoint — concepts, architecture et choix de déploiement</div>
+            </div>
+        </div>
+
+        <!-- ===== 01 ===== -->
         <section class="chapter" id="presentation">
             <p class="chapter__num">01</p>
             <h2 class="chapter__title">Présentation</h2>
@@ -472,45 +495,16 @@
             <p>Développée par Microsoft et intégrée à l'écosystème <strong>Microsoft 365</strong>, SharePoint sert à créer des portails intranet, à organiser les documents d'entreprise et à fournir aux équipes un espace de travail partagé. C'est aujourd'hui l'une des solutions de gestion de contenu d'entreprise les plus répandues au monde.</p>
 
             <h3>Plus de 20 ans d'évolution</h3>
-            <p>SharePoint a suivi un mouvement de fond : partir d'un produit installé dans la salle serveur de l'entreprise pour rejoindre progressivement le cloud et ses mises à jour continues.</p>
-
             <div class="timeline">
-                <div class="tl-item">
-                    <div class="tl-year">2001</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Portal Server 2001</strong> — première version, centrée sur la gestion documentaire et les portails intranet basiques.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2003</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Portal Server 2003</strong> — intégration avec Office et Active Directory, essor des sites d'équipe.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2007</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>Office SharePoint Server 2007 (MOSS)</strong> — arrivée des workflows, des métadonnées et d'un vrai moteur de recherche.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2010</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Server 2010</strong> — applications de service, Business Intelligence, et première version cloud (SharePoint Online dans BPOS).</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2013</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Server 2013</strong> — modèle d'apps, API REST, recherche enrichie et lien renforcé avec Office 365.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2016</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Server 2016</strong> — architecture hybride (Server + Online), gains de performance, rôles MinRole pour les fermes.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2019</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Server 2019</strong> — expérience moderne (pages, listes, bibliothèques), SharePoint Framework (SPFx), OneDrive moderne.</div>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-year">2022</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Server Subscription Edition (SE)</strong> — modèle d'abonnement, mises à jour continues, alignement maximal avec Online.</div>
-                </div>
-                <div class="tl-item tl-item--now">
-                    <div class="tl-year">Aujourd'hui</div><div class="tl-dot"></div>
-                    <div class="tl-body"><strong>SharePoint Online (Microsoft 365)</strong> — évolution permanente, intégration native avec Teams, Viva Connections, Copilot et Microsoft Graph.</div>
-                </div>
+                <div class="tl-item"><div class="tl-year">2001</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Portal Server 2001</strong> — première version, centrée sur la gestion documentaire et les portails intranet basiques.</div></div>
+                <div class="tl-item"><div class="tl-year">2003</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Portal Server 2003</strong> — intégration avec Office et Active Directory, essor des sites d'équipe.</div></div>
+                <div class="tl-item"><div class="tl-year">2007</div><div class="tl-dot"></div><div class="tl-body"><strong>Office SharePoint Server 2007 (MOSS)</strong> — arrivée des workflows, des métadonnées et d'un vrai moteur de recherche.</div></div>
+                <div class="tl-item"><div class="tl-year">2010</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Server 2010</strong> — applications de service, Business Intelligence, première version cloud.</div></div>
+                <div class="tl-item"><div class="tl-year">2013</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Server 2013</strong> — modèle d'apps, API REST, recherche enrichie et lien renforcé avec Office 365.</div></div>
+                <div class="tl-item"><div class="tl-year">2016</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Server 2016</strong> — architecture hybride, gains de performance, rôles MinRole pour les fermes.</div></div>
+                <div class="tl-item"><div class="tl-year">2019</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Server 2019</strong> — expérience moderne (pages, listes, bibliothèques), SharePoint Framework (SPFx).</div></div>
+                <div class="tl-item"><div class="tl-year">2022</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Server Subscription Edition (SE)</strong> — modèle d'abonnement, mises à jour continues, alignement maximal avec Online.</div></div>
+                <div class="tl-item tl-item--now"><div class="tl-year">Aujourd'hui</div><div class="tl-dot"></div><div class="tl-body"><strong>SharePoint Online (Microsoft 365)</strong> — évolution permanente, intégration native avec Teams, Viva, Copilot et Microsoft Graph.</div></div>
             </div>
 
             <h3>Ce que SharePoint cherche à résoudre</h3>
@@ -529,7 +523,7 @@
             </div>
         </section>
 
-        <!-- ===== 02 — SERVER VS ONLINE ===== -->
+        <!-- ===== 02 ===== -->
         <section class="chapter" id="comparatif">
             <p class="chapter__num">02</p>
             <h2 class="chapter__title">SharePoint Server vs SharePoint Online</h2>
@@ -537,13 +531,7 @@
 
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Critère</th>
-                            <th class="th-server">SharePoint Server</th>
-                            <th class="th-online">SharePoint Online</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Critère</th><th class="th-server">SharePoint Server</th><th class="th-online">SharePoint Online</th></tr></thead>
                     <tbody>
                         <tr><td>Hébergement</td><td class="col-server">Sur site (serveurs locaux)</td><td class="col-online">Cloud (Microsoft 365)</td></tr>
                         <tr><td>Modèle de licence</td><td class="col-server">Licence perpétuelle + CAL</td><td class="col-online">Abonnement mensuel / annuel</td></tr>
@@ -555,10 +543,7 @@
                         <tr><td>Sécurité &amp; conformité</td><td class="col-server">Contrôle total par l'entreprise</td><td class="col-online">Gérée par Microsoft (ISO, SOC)</td></tr>
                         <tr><td>Scalabilité</td><td class="col-server">Limitée par l'infra physique</td><td class="col-online">Élastique, gérée par Microsoft</td></tr>
                         <tr><td>Coût initial</td><td class="col-server">Élevé (matériel + licences)</td><td class="col-online">Faible (abonnement)</td></tr>
-                        <tr><td>Coût opérationnel</td><td class="col-server">Élevé (admins, infra)</td><td class="col-online">Inclus dans l'abonnement</td></tr>
                         <tr><td>Disponibilité</td><td class="col-server">Dépend de l'infra locale</td><td class="col-online">SLA Microsoft (99,9 %)</td></tr>
-                        <tr><td>Versions</td><td class="col-server">2016, 2019, SE (2022)</td><td class="col-online">Toujours la dernière</td></tr>
-                        <tr><td>Solutions tierces</td><td class="col-server">Large écosystème, add-ons farm</td><td class="col-online">Add-ins SPFx uniquement</td></tr>
                         <tr><td>Idéal pour</td><td class="col-server">Secteurs réglementés, grandes entreprises</td><td class="col-online">PME, organisations modernes</td></tr>
                     </tbody>
                 </table>
@@ -570,7 +555,7 @@
             </div>
         </section>
 
-        <!-- ===== 03 — LICENCES & TARIFS ===== -->
+        <!-- ===== 03 ===== -->
         <section class="chapter" id="licences">
             <p class="chapter__num">03</p>
             <h2 class="chapter__title">Licences, prix &amp; fonctionnalités</h2>
@@ -579,54 +564,27 @@
             <h3><span class="pill pill--online">Online</span>&nbsp; SharePoint Online — via Microsoft 365</h3>
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr><th>Plan</th><th>Prix / utilisateur / mois</th><th>Stockage SharePoint</th><th>Fonctionnalités clés</th></tr>
-                    </thead>
+                    <thead><tr><th>Plan</th><th>Prix / utilisateur / mois</th><th>Stockage SharePoint</th><th>Fonctionnalités clés</th></tr></thead>
                     <tbody>
                         <tr><td>SharePoint Plan 1</td><td>5,00 $</td><td>1 To + 10 Go/utilisateur</td><td>Sites, listes, bibliothèques, partage externe, co-édition Office</td></tr>
                         <tr><td>SharePoint Plan 2</td><td>10,00 $</td><td>Illimité*</td><td>Plan 1 + recherche avancée, eDiscovery, conformité, audit</td></tr>
                         <tr><td>Microsoft 365 Business Basic</td><td>6,00 $</td><td>1 To + 10 Go/utilisateur</td><td>SharePoint Plan 1, Teams, Exchange, OneDrive 1 To</td></tr>
-                        <tr><td>Microsoft 365 Business Standard</td><td>12,50 $</td><td>1 To + 10 Go/utilisateur</td><td>Basic + applications Office bureau (Word, Excel…)</td></tr>
-                        <tr><td>Microsoft 365 Business Premium</td><td>22,00 $</td><td>1 To + 10 Go/utilisateur</td><td>Standard + Intune, Entra ID P1, Defender for Business</td></tr>
+                        <tr><td>Microsoft 365 Business Standard</td><td>12,50 $</td><td>1 To + 10 Go/utilisateur</td><td>Basic + applications Office bureau</td></tr>
                         <tr><td>Microsoft 365 E3</td><td>36,00 $</td><td>Illimité*</td><td>SharePoint Plan 2, Teams, Exchange, eDiscovery, DLP</td></tr>
                         <tr><td>Microsoft 365 E5</td><td>57,00 $</td><td>Illimité*</td><td>E3 + conformité avancée, Defender, Power BI Pro, Entra ID P2</td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="note">* Illimité : 1 To de base + 10 Go par licence achetée ; au-delà sur demande Microsoft.</p>
+            <p class="note">* 1 To de base + 10 Go par licence achetée ; au-delà sur demande Microsoft.</p>
 
             <h3><span class="pill pill--server">Server</span>&nbsp; SharePoint Server — sur site</h3>
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr><th>Édition</th><th>Licence serveur</th><th>CAL utilisateur</th><th>Fonctionnalités clés</th></tr>
-                    </thead>
+                    <thead><tr><th>Édition</th><th>Licence serveur</th><th>CAL utilisateur</th><th>Fonctionnalités clés</th></tr></thead>
                     <tbody>
                         <tr><td>Server Standard</td><td>~3 600 $ (perpétuelle)</td><td>~110 $ / utilisateur</td><td>Sites, bibliothèques, workflows, recherche de base, profils</td></tr>
-                        <tr><td>Server Enterprise</td><td>~6 800 $ (perpétuelle)</td><td>~110 $ + ~47 $ Enterprise</td><td>Standard + Excel/Visio/Access Services, PerformancePoint, eDiscovery</td></tr>
+                        <tr><td>Server Enterprise</td><td>~6 800 $ (perpétuelle)</td><td>~110 $ + ~47 $ Enterprise</td><td>Standard + Excel/Visio Services, PerformancePoint, eDiscovery</td></tr>
                         <tr><td>Subscription Edition (SE)</td><td>Abonnement annuel</td><td>Inclus</td><td>Mises à jour continues, fonctions modernes, hybride simplifié</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="note">Les licences perpétuelles nécessitent en plus des licences SQL Server et Windows Server.</p>
-
-            <h3>Quelle fonctionnalité dans quel plan ?</h3>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>Fonctionnalité</th><th>Plan 1</th><th>Plan 2 / E3</th><th>E5</th><th class="th-server">Server SE</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Sites, listes &amp; bibliothèques</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
-                        <tr><td>Co-édition Office en ligne</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
-                        <tr><td>Partage externe</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="partial">Limité</td></tr>
-                        <tr><td>Power Automate (workflows)</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="partial">Hybride</td></tr>
-                        <tr><td>Recherche avancée &amp; IA</td><td class="no">Non</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
-                        <tr><td>eDiscovery &amp; audit</td><td class="no">Non</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
-                        <tr><td>DLP (prévention des fuites)</td><td class="no">Non</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="no">Non</td></tr>
-                        <tr><td>Conformité avancée (Insider Risk…)</td><td class="no">Non</td><td class="no">Non</td><td class="yes">Oui</td><td class="no">Non</td></tr>
-                        <tr><td>Personnalisation SPFx totale</td><td class="partial">Limitée</td><td class="partial">Limitée</td><td class="partial">Limitée</td><td class="yes">Oui</td></tr>
-                        <tr><td>Contrôle total des données</td><td class="no">Non</td><td class="no">Non</td><td class="no">Non</td><td class="yes">Oui</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -637,7 +595,7 @@
             </div>
         </section>
 
-        <!-- ===== 04 — MODÈLES DE DÉPLOIEMENT ===== -->
+        <!-- ===== 04 ===== -->
         <section class="chapter" id="modeles-cloud">
             <p class="chapter__num">04</p>
             <h2 class="chapter__title">On-site, IaaS, PaaS, SaaS</h2>
@@ -645,15 +603,7 @@
 
             <div class="table-wrap">
                 <table style="text-align:center;">
-                    <thead>
-                        <tr>
-                            <th style="text-align:left;">Composant</th>
-                            <th>On-site</th>
-                            <th>IaaS</th>
-                            <th>PaaS</th>
-                            <th class="th-online">SaaS</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th style="text-align:left;">Composant</th><th>On-site</th><th>IaaS</th><th>PaaS</th><th class="th-online">SaaS</th></tr></thead>
                     <tbody>
                         <tr><td>Application</td><td><span class="dot dot--you"></span></td><td><span class="dot dot--you"></span></td><td><span class="dot dot--you"></span></td><td class="col-online"><span class="dot dot--cloud"></span></td></tr>
                         <tr><td>Données</td><td><span class="dot dot--you"></span></td><td><span class="dot dot--you"></span></td><td><span class="dot dot--you"></span></td><td class="col-online"><span class="dot dot--you"></span></td></tr>
@@ -662,32 +612,20 @@
                         <tr><td>Virtualisation</td><td><span class="dot dot--you"></span></td><td><span class="dot dot--cloud"></span></td><td><span class="dot dot--cloud"></span></td><td class="col-online"><span class="dot dot--cloud"></span></td></tr>
                         <tr><td>Serveurs / Réseau</td><td><span class="dot dot--you"></span></td><td><span class="dot dot--cloud"></span></td><td><span class="dot dot--cloud"></span></td><td class="col-online"><span class="dot dot--cloud"></span></td></tr>
                         <tr><td>Datacenter</td><td><span class="dot dot--you"></span></td><td><span class="dot dot--cloud"></span></td><td><span class="dot dot--cloud"></span></td><td class="col-online"><span class="dot dot--cloud"></span></td></tr>
-                        <tr style="border-top:3px solid var(--online);">
-                            <td>SharePoint</td>
-                            <td><strong>Server</strong></td>
-                            <td><strong>Server / VM</strong></td>
-                            <td>—</td>
-                            <td class="col-online"><strong>Online</strong></td>
-                        </tr>
+                        <tr style="border-top:3px solid var(--online);"><td>SharePoint</td><td><strong>Server</strong></td><td><strong>Server / VM</strong></td><td>—</td><td class="col-online"><strong>Online</strong></td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="legend">
-                <span><span class="dot dot--you"></span> géré par l'entreprise</span>
-                <span><span class="dot dot--cloud"></span> géré par le fournisseur cloud</span>
-            </p>
+            <p class="legend"><span><span class="dot dot--you"></span> géré par l'entreprise</span><span><span class="dot dot--cloud"></span> géré par le fournisseur cloud</span></p>
 
             <h3>On-site — SharePoint Server</h3>
             <p>L'entreprise est responsable de <strong>tout</strong> : datacenter, réseau, serveurs, OS, SQL Server et l'application elle-même. Le modèle le plus contraignant, mais aussi le plus souverain : aucune donnée ne quitte ses murs.</p>
 
             <h3>IaaS — Infrastructure as a Service</h3>
-            <p>Le fournisseur (Azure, AWS, GCP) fournit des <strong>machines virtuelles</strong> ; l'entreprise y installe et gère Windows Server, SQL Server et SharePoint Server. On garde le contrôle applicatif sans gérer le matériel — idéal pour porter un SharePoint Server dans le cloud sans changer de version.</p>
-
-            <h3>PaaS — Platform as a Service</h3>
-            <p>Le fournisseur gère l'OS, le runtime et le middleware ; l'entreprise ne déploie que son <strong>code et ses données</strong>. SharePoint n'a pas de mode PaaS natif, mais on s'appuie sur des services PaaS voisins (Azure App Service, Azure Functions) pour <em>étendre</em> SharePoint Online.</p>
+            <p>Le fournisseur fournit des <strong>machines virtuelles</strong> ; l'entreprise y installe et gère Windows Server, SQL Server et SharePoint Server. On garde le contrôle applicatif sans gérer le matériel.</p>
 
             <h3>SaaS — SharePoint Online</h3>
-            <p>Microsoft gère l'intégralité de la pile. L'entreprise consomme l'application via un navigateur ou les clients Microsoft 365 ; seules <strong>les données et la configuration</strong> restent sous sa responsabilité. Le modèle le plus simple à adopter et à maintenir.</p>
+            <p>Microsoft gère l'intégralité de la pile. L'entreprise consomme l'application via un navigateur ; seules <strong>les données et la configuration</strong> restent sous sa responsabilité.</p>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
@@ -695,11 +633,11 @@
             </div>
         </section>
 
-        <!-- ===== 05 — COUCHES D'ABSTRACTION ===== -->
+        <!-- ===== 05 ===== -->
         <section class="chapter" id="couches">
             <p class="chapter__num">05</p>
             <h2 class="chapter__title">Les couches d'abstraction</h2>
-            <p class="chapter__intro">SharePoint s'empile en couches : chacune s'appuie sur celle du dessous et rend service à celle du dessus. C'est cette séparation qui permet de faire évoluer une couche sans casser les autres.</p>
+            <p class="chapter__intro">SharePoint s'empile en couches : chacune s'appuie sur celle du dessous et rend service à celle du dessus. Cette séparation permet de faire évoluer une couche sans casser les autres.</p>
 
             <div class="stack">
                 <div class="layer layer-1"><span class="layer__n">01</span><span class="layer__body"><strong>Présentation (UI)</strong><span>Pages modernes &amp; classiques · Web Parts · SPFx · Thèmes</span></span></div>
@@ -712,352 +650,206 @@
             <h3>Présentation</h3>
             <p>Ce que voit l'utilisateur. SharePoint propose l'expérience <strong>moderne</strong> (React, responsive, intégrée à M365) et l'expérience <strong>classique</strong> (héritée). Les développeurs créent des composants sur mesure avec le <strong>SharePoint Framework (SPFx)</strong>.</p>
 
-            <h3>Application</h3>
-            <p>Les objets métier : <strong>collections de sites</strong>, <strong>listes</strong>, <strong>bibliothèques</strong> et <strong>workflows</strong>. C'est ici qu'on configure les règles métier, qu'on définit les droits et qu'on branche les automatisations.</p>
-
             <h3>Services</h3>
-            <p>Des services transversaux réutilisables : moteur de <strong>recherche</strong> (indexation full-text), <strong>métadonnées gérées</strong> (taxonomies), <strong>profils utilisateurs</strong> et <strong>Business Connectivity Services</strong> pour brancher des sources externes. L'accès programmatique passe par l'<strong>API REST</strong> ou <strong>Microsoft Graph</strong>.</p>
+            <p>Des services transversaux réutilisables : moteur de <strong>recherche</strong>, <strong>métadonnées gérées</strong>, <strong>profils utilisateurs</strong> et <strong>Business Connectivity Services</strong>. L'accès programmatique passe par l'<strong>API REST</strong> ou <strong>Microsoft Graph</strong>.</p>
 
             <h3>Données</h3>
-            <p>Tout est persisté ici. <span class="pill pill--server">Server</span> utilise <strong>SQL Server</strong> ; <span class="pill pill--online">Online</span> s'appuie sur <strong>Azure SQL</strong> et le <strong>Blob Storage</strong> pour les gros fichiers. L'index de recherche est stocké à part, pour la performance.</p>
-
-            <h3>Infrastructure</h3>
-            <p>La couche d'exécution. En <span class="pill pill--server">Server</span>, ce sont des serveurs Windows avec IIS, SQL Server et Active Directory. En <span class="pill pill--online">Online</span>, Microsoft prend tout en charge via <strong>Azure</strong> et <strong>Entra ID</strong> — la gestion devient invisible.</p>
+            <p><span class="pill pill--server">Server</span> utilise <strong>SQL Server</strong> ; <span class="pill pill--online">Online</span> s'appuie sur <strong>Azure SQL</strong> et le <strong>Blob Storage</strong> pour les gros fichiers.</p>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
-                <p>Cinq couches, de l'interface à l'infrastructure. La grande différence : en <span class="pill pill--online">Online</span>, Microsoft absorbe <strong>tout le bas de la pile</strong> (données + infra), là où en <span class="pill pill--server">Server</span> vous en restez responsable.</p>
+                <p>Cinq couches, de l'interface à l'infrastructure. En <span class="pill pill--online">Online</span>, Microsoft absorbe <strong>tout le bas de la pile</strong> (données + infra) ; en <span class="pill pill--server">Server</span>, vous en restez responsable.</p>
             </div>
         </section>
 
-        <!-- ===== 06 — ARCHITECTURE PHYSIQUE & TOPOLOGIES ===== -->
+        <!-- ===== 06 ===== -->
         <section class="chapter" id="architecture">
             <p class="chapter__num">06</p>
             <h2 class="chapter__title">Architecture physique &amp; topologies</h2>
-            <p class="chapter__intro">SharePoint Server repose sur une architecture <strong>client-serveur à trois tiers</strong>, regroupés dans une <em>ferme</em>. La façon de répartir ces tiers entre serveurs — la <em>topologie</em> — dépend des besoins de performance et de redondance.</p>
+            <p class="chapter__intro">SharePoint Server repose sur une architecture <strong>client-serveur à trois tiers</strong>, regroupés dans une <em>ferme</em>. La façon de répartir ces tiers — la <em>topologie</em> — dépend des besoins de performance et de redondance.</p>
 
             <h3>Les trois tiers</h3>
             <div class="arch">
                 <p class="arch__client">Navigateur / client Office</p>
-                <p class="arch__arrow">&darr;</p>
-                <div class="arch__node arch__node--wfe">
-                    <strong>Web Front End (WFE) — IIS</strong>
-                    <span>Requêtes HTTP · Authentification · Rendu des pages</span>
-                </div>
-                <p class="arch__arrow">&darr;</p>
-                <div class="arch__node arch__node--app">
-                    <strong>Serveur d'applications</strong>
-                    <span>Recherche · Métadonnées · Profils · Workflows</span>
-                </div>
-                <p class="arch__arrow">&darr;</p>
-                <div class="arch__node arch__node--sql">
-                    <strong>SQL Server — Base de données</strong>
-                    <span>Content DB · Config DB · Service App DB · Index</span>
-                </div>
+                <p class="arch__arrow">↓</p>
+                <div class="arch__node arch__node--wfe"><strong>Web Front End (WFE) — IIS</strong><span>Requêtes HTTP · Authentification · Rendu des pages</span></div>
+                <p class="arch__arrow">↓</p>
+                <div class="arch__node arch__node--app"><strong>Serveur d'applications</strong><span>Recherche · Métadonnées · Profils · Workflows</span></div>
+                <p class="arch__arrow">↓</p>
+                <div class="arch__node arch__node--sql"><strong>SQL Server — Base de données</strong><span>Content DB · Config DB · Service App DB · Index</span></div>
             </div>
 
             <ul>
-                <li><strong>Web Front End (WFE / IIS)</strong> — reçoit les requêtes des navigateurs et clients Office, gère l'authentification via Active Directory (NTLM, Kerberos) ou un fournisseur externe (SAML/ADFS). En production, plusieurs WFE derrière un répartiteur de charge.</li>
-                <li><strong>Serveur d'applications</strong> — héberge les services (Search, Managed Metadata, User Profiles, Workflow Manager…), répartis sur plusieurs serveurs selon la charge.</li>
-                <li><strong>SQL Server</strong> — cœur de la persistance : la <em>Content DB</em> stocke documents, listes et pages ; la <em>Config DB</em> contient la configuration ; les <em>Service App DB</em> hébergent index et profils. <code>Always On</code> assure la redondance.</li>
-            </ul>
-            <p class="note"><strong>Point important.</strong> SharePoint ne fonctionne qu'avec <strong>Microsoft SQL Server</strong> — impossible d'utiliser MySQL, PostgreSQL ou un autre moteur. Microsoft n'a jamais porté SharePoint vers d'autres bases : le couple SharePoint + SQL Server est imposé.</p>
-
-            <h3>La ferme SharePoint</h3>
-            <p>Une <strong>ferme</strong> (<em>farm</em>) regroupe les serveurs partageant la même base de configuration. Elle va du serveur unique (tests) à plusieurs dizaines de serveurs répartis en rôles MinRole pour la production à grande échelle.</p>
-            <ul>
-                <li><strong>Scalabilité horizontale</strong> — on ajoute des WFE ou serveurs de recherche à chaud, sans coupure.</li>
-                <li><strong>Redondance</strong> — chaque rôle peut être doublé (≥ 2 WFE + SQL Always On) pour un basculement automatique.</li>
-                <li><strong>Distributed Cache</strong> — service AppFabric qui met en cache flux d'activité, jetons d'authentification et aperçus.</li>
+                <li><strong>Web Front End (WFE / IIS)</strong> — reçoit les requêtes, gère l'authentification via Active Directory (NTLM, Kerberos) ou SAML/ADFS.</li>
+                <li><strong>Serveur d'applications</strong> — héberge les services (Search, Managed Metadata, User Profiles…).</li>
+                <li><strong>SQL Server</strong> — cœur de la persistance. SharePoint ne fonctionne qu'avec Microsoft SQL Server — aucune alternative possible.</li>
             </ul>
 
             <h3>Les 4 topologies de référence</h3>
-            <p>Du plus simple au plus robuste, selon ce que l'on veut protéger et faire monter en charge.</p>
             <div class="topo">
-                <div class="topo__item">
-                    <div class="topo__head"><span class="topo__n">1</span><span class="topo__title">Tout-en-un</span></div>
-                    <div class="topo__diagram"><span class="srv"><b>WFE + APP + SQL</b></span></div>
-                    <p>WFE, application et SQL sur un <strong>seul serveur</strong>. Rare en production car très gourmand — réservé aux tests et démonstrations.</p>
-                </div>
-                <div class="topo__item">
-                    <div class="topo__head"><span class="topo__n">2</span><span class="topo__title">SQL déporté (fréquent)</span></div>
-                    <div class="topo__diagram"><span class="srv"><b>WFE + APP</b></span><span class="srv"><b>SQL</b></span></div>
-                    <p>WFE et application sur un serveur, <strong>SQL sur un serveur dédié</strong>. La base étant l'élément le plus sensible, la stratégie de sauvegarde se concentre dessus.</p>
-                </div>
-                <div class="topo__item">
-                    <div class="topo__head"><span class="topo__n">3</span><span class="topo__title">Trois rôles séparés</span></div>
-                    <div class="topo__diagram"><span class="srv"><b>WFE</b></span><span class="srv"><b>APP</b></span><span class="srv"><b>SQL</b></span></div>
-                    <p>WFE, application et SQL <strong>chacun sur son serveur</strong>. Plus rare : typique d'un serveur web interne déjà chargé, où SharePoint s'ajoute sur un serveur d'applications à part.</p>
-                </div>
-                <div class="topo__item">
-                    <div class="topo__head"><span class="topo__n">4</span><span class="topo__title">Scalabilité &amp; redondance</span></div>
-                    <div class="topo__diagram"><span class="srv"><b>WFE</b> ×N (NLB)</span><span class="srv"><b>APP</b> ×N</span><span class="srv"><b>SQL</b> cluster</span></div>
-                    <p>Un rôle par serveur, multiplié en <strong>nœuds et clusters</strong>. Les WFE répondent en parallèle via du <strong>NLB</strong> (répartition de charge), le SQL est mis en cluster : si un serveur tombe, un autre prend le relais. Résilience quasi totale.</p>
-                </div>
+                <div class="topo__item"><div class="topo__head"><span class="topo__n">1</span><span class="topo__title">Tout-en-un</span></div><div class="topo__diagram"><span class="srv"><b>WFE + APP + SQL</b></span></div><p>Un seul serveur. Tests et démonstrations uniquement.</p></div>
+                <div class="topo__item"><div class="topo__head"><span class="topo__n">2</span><span class="topo__title">SQL déporté</span></div><div class="topo__diagram"><span class="srv"><b>WFE + APP</b></span><span class="srv"><b>SQL</b></span></div><p>WFE et application ensemble, SQL sur un serveur dédié. Topologie la plus courante.</p></div>
+                <div class="topo__item"><div class="topo__head"><span class="topo__n">3</span><span class="topo__title">Trois rôles séparés</span></div><div class="topo__diagram"><span class="srv"><b>WFE</b></span><span class="srv"><b>APP</b></span><span class="srv"><b>SQL</b></span></div><p>Chaque rôle sur son propre serveur.</p></div>
+                <div class="topo__item"><div class="topo__head"><span class="topo__n">4</span><span class="topo__title">Scalabilité &amp; redondance</span></div><div class="topo__diagram"><span class="srv"><b>WFE</b> ×N (NLB)</span><span class="srv"><b>APP</b> ×N</span><span class="srv"><b>SQL</b> cluster</span></div><p>Rôles multipliés. Résilience quasi totale, mais coût de licence élevé.</p></div>
             </div>
-            <p class="note"><strong>Le vrai frein, c'est la licence.</strong> Techniquement, on duplique presque sans limite (plafond théorique très haut). Mais la licence SharePoint se compte <strong>par serveur</strong> et dépend de la mémoire / des cœurs : multiplier les nœuds WFE et SQL fait grimper la facture très vite. La redondance maximale n'a de sens que si la criticité la justifie.</p>
 
-            <h3>Choisir sa topologie : l'analyse de risque</h3>
-            <p>Jusqu'où faut-il redonder ? La réponse ne sort pas d'un catalogue, elle vient d'une <strong>analyse de risque</strong> : on croise la <strong>probabilité</strong> qu'une panne survienne avec son <strong>impact</strong> sur l'activité. Ce croisement dicte le niveau de redondance — et donc la topologie à retenir.</p>
-
+            <h3>Choisir sa topologie : analyse de risque</h3>
             <div class="riskgrid">
                 <div class="rg-cell rg-corner"></div>
                 <div class="rg-cell rg-head">Impact faible</div>
                 <div class="rg-cell rg-head">Impact fort</div>
-
                 <div class="rg-cell rg-rowhead">Probabilité forte</div>
-                <div class="rg-cell rg-q rg-amber">
-                    <strong>Remédier, sans urgence</strong>
-                    <em>Vieux serveur qui tombe souvent, mais n'impacte qu'une personne en fin de mois.</em>
-                </div>
-                <div class="rg-cell rg-q rg-red">
-                    <strong>Agir en priorité</strong>
-                    <em>Serveur instable dont dépend toute l'entreprise : à redonder ou éliminer d'urgence.</em>
-                </div>
-
+                <div class="rg-cell rg-q rg-amber"><strong>Remédier, sans urgence</strong><em>Vieux serveur qui tombe souvent, mais n'impacte qu'une personne.</em></div>
+                <div class="rg-cell rg-q rg-red"><strong>Agir en priorité</strong><em>Serveur instable dont dépend toute l'entreprise.</em></div>
                 <div class="rg-cell rg-rowhead">Probabilité faible</div>
-                <div class="rg-cell rg-q rg-green">
-                    <strong>Accepter le risque</strong>
-                    <em>SharePoint neuf qui ne stocke que des pièces jointes : rien à faire.</em>
-                </div>
-                <div class="rg-cell rg-q rg-amber">
-                    <strong>Surveiller + plan de secours</strong>
-                    <em>Infra neuve et testée, mais qui héberge la solution métier critique.</em>
-                </div>
+                <div class="rg-cell rg-q rg-green"><strong>Accepter le risque</strong><em>SharePoint neuf qui ne stocke que des pièces jointes.</em></div>
+                <div class="rg-cell rg-q rg-amber"><strong>Surveiller + plan de secours</strong><em>Infra neuve, mais qui héberge la solution métier critique.</em></div>
             </div>
-
-            <p>Appliqué à SharePoint : s'il ne sert qu'à stocker des photos et pièces jointes, son indisponibilité une heure ou deux n'a aucune conséquence — une simple sauvegarde suffit. Mais s'il héberge la solution métier et que la production s'arrête le temps d'une restauration (1 h–1 h 30), l'impact devient critique : il faut alors redonder (topologie 4).</p>
-            <p class="note">Cette analyse se refait régulièrement : pour une infrastructure, un <strong>audit tous les 1 à 2 ans</strong> est la norme, car les facteurs évoluent — un serveur vieillit, une criticité change.</p>
-
-            <h3><span class="pill pill--online">Online</span>&nbsp; côté Azure</h3>
-            <p>En SharePoint Online, cette architecture est entièrement gérée par Microsoft sur <strong>Azure</strong>. WFE, serveurs d'applications et bases sont mutualisés et isolés par <em>tenant</em> (multi-locataire). L'élasticité Azure ajuste automatiquement la capacité — de façon transparente pour l'entreprise.</p>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
-                <p>Trois tiers — <strong>WFE → Application → SQL Server</strong> (obligatoire, pas d'autre base) — regroupés en ferme et déclinés en 4 topologies. Le bon niveau de redondance se décide par <strong>analyse de risque</strong> (probabilité × impact), pas par défaut. Et le point le plus sensible à sauvegarder reste toujours la <strong>base SQL</strong>.</p>
+                <p>Trois tiers — <strong>WFE → Application → SQL Server</strong> (obligatoire) — déclinés en 4 topologies. Le bon niveau de redondance se décide par <strong>analyse de risque</strong> (probabilité × impact). Le point le plus sensible à sauvegarder est toujours la <strong>base SQL</strong>.</p>
             </div>
         </section>
 
-        <!-- ===== 07 — ARCHITECTURE LOGIQUE ===== -->
+        <!-- ===== 07 ===== -->
         <section class="chapter" id="modele-logique">
             <p class="chapter__num">07</p>
             <h2 class="chapter__title">Architecture logique : la hiérarchie des objets</h2>
-            <p class="chapter__intro">Au-delà des serveurs physiques, SharePoint organise le contenu en une <strong>pile d'objets emboîtés</strong>, de la ferme jusqu'au site. Comprendre cette hiérarchie est indispensable pour administrer, sécuriser et sauvegarder <em>au bon niveau</em>.</p>
+            <p class="chapter__intro">Au-delà des serveurs, SharePoint organise le contenu en une <strong>pile d'objets emboîtés</strong>, de la ferme jusqu'au site. Comprendre cette hiérarchie est indispensable pour administrer, sécuriser et sauvegarder <em>au bon niveau</em>.</p>
 
             <div class="model">
                 <div class="model__box model--farm">
-                    <div class="model__h">Ferme SharePoint <small>frontière d'administration · décrite par une seule base de configuration (Config DB)</small></div>
-
+                    <div class="model__h">Ferme SharePoint <small>frontière d'administration · une seule base de configuration (Config DB)</small></div>
                     <div class="model__box model--svc">
-                        <div class="model__h">Applications de service <small>services mutualisés, provisionnés une fois et partagés par toutes les applications web</small></div>
+                        <div class="model__h">Applications de service <small>services mutualisés, partagés par toutes les applications web</small></div>
                         <div class="model__svc-list">
-                            <span class="svc">User Profile</span>
-                            <span class="svc">Recherche</span>
-                            <span class="svc">Managed Metadata</span>
-                            <span class="svc">Excel Services</span>
-                            <span class="svc">BCS</span>
-                            <span class="svc">Secure Store</span>
+                            <span class="svc">User Profile</span><span class="svc">Recherche</span><span class="svc">Managed Metadata</span><span class="svc">Excel Services</span><span class="svc">BCS</span><span class="svc">Secure Store</span>
                         </div>
                     </div>
-
                     <div class="model__box model--web">
-                        <div class="model__h">Application web — IIS <small>une URL et un mode d'authentification propres (ex. https://intranet)</small></div>
-
+                        <div class="model__h">Application web — IIS <small>une URL et un mode d'authentification propres (ex. http://intranet)</small></div>
                         <div class="model__box model--db model__nest">
-                            <div class="model__h">Base de contenu — Content DB <small>unité de sauvegarde &amp; de montée en charge ; héberge des collections entières</small></div>
-
+                            <div class="model__h">Base de contenu — Content DB <small>unité de sauvegarde &amp; de montée en charge</small></div>
                             <div class="model__box model--sc model__nest">
                                 <div class="model__h">Collection de sites <small>frontière de sécurité &amp; de quota — vit dans une seule base de contenu</small></div>
-                                <div class="model__box">
-                                    <div class="model__h">Site de premier niveau
-                                        <small>Sous-site &nbsp;·&nbsp; Sous-site → Listes · Bibliothèques · Pages</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="model__box model--sc model__nest">
-                                <div class="model__h">Collection de sites … <small>une base de contenu peut en héberger plusieurs</small></div>
+                                <div class="model__box"><div class="model__h">Site de premier niveau<small>Sous-sites → Listes · Bibliothèques · Pages</small></div></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h3>Ferme &amp; base de configuration</h3>
-            <p>La <strong>ferme</strong> est la frontière d'administration : tout ce qui la compose est décrit par une <strong>base de configuration unique</strong> (Config DB). C'est elle qui « connaît » les serveurs, les services et les applications web. Perdre la Config DB, c'est perdre la ferme.</p>
-
-            <h3>Applications de service</h3>
-            <p>Ce sont des <strong>services partagés</strong> — recherche, profils utilisateurs, métadonnées gérées, Excel Services, Business Connectivity Services, Secure Store. On les <strong>provisionne une seule fois</strong> et plusieurs applications web les consomment : un seul service de recherche peut indexer tout l'intranet. Chaque service possède généralement sa propre base de données.</p>
-
-            <h3>Application web</h3>
-            <p>Une <strong>application web</strong> est un site IIS doté de sa propre <strong>URL</strong> et de son propre <strong>mode d'authentification</strong>. Elle s'appuie sur une ou plusieurs bases de contenu. On crée typiquement une application web distincte pour l'intranet, l'extranet ou les sites publics.</p>
-
             <h3>Base de contenu (Content DB)</h3>
-            <p>La <strong>base de contenu</strong> est l'unité de stockage côté SQL. C'est aussi l'<strong>unité de sauvegarde et de restauration</strong>, et l'unité de montée en charge : pour répartir la charge, on ajoute des bases. Bonne pratique : surveiller leur taille (Microsoft recommande de rester raisonnable, de l'ordre de 200 Go par base pour une administration confortable).</p>
-
-            <h3>Collection de sites &amp; sites</h3>
-            <p>Une <strong>collection de sites</strong> est la frontière de <strong>propriété, de quota et d'héritage des droits</strong>. Point clé : une collection vit <strong>entièrement dans une seule base de contenu</strong> — elle n'est jamais répartie sur plusieurs. Elle contient un <strong>site de premier niveau</strong> et, en dessous, une arborescence de <strong>sites et sous-sites</strong> qui hébergent listes, bibliothèques et pages.</p>
+            <p>C'est l'<strong>unité de sauvegarde et de restauration</strong>. Une collection de sites vit <strong>entièrement dans une seule base de contenu</strong> — elle n'est jamais répartie sur plusieurs.</p>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
-                <p>La hiérarchie logique — <strong>Ferme → Applications de service / Applications web → Content DB → Collection de sites → Sites</strong> — double l'architecture physique. Elle commande deux décisions concrètes : on <strong>sauvegarde</strong> au niveau de la base de contenu, et on <strong>sécurise</strong> au niveau de la collection de sites.</p>
+                <p>La hiérarchie — <strong>Ferme → App. de service / App. web → Content DB → Collection de sites → Sites</strong> — commande deux décisions concrètes : on <strong>sauvegarde</strong> au niveau de la base de contenu, et on <strong>sécurise</strong> au niveau de la collection de sites.</p>
             </div>
         </section>
 
-        <!-- ===== 08 — POURQUOI SERVER ===== -->
+        <!-- ===== 08 ===== -->
         <section class="chapter" id="pourquoi">
             <p class="chapter__num">08</p>
             <h2 class="chapter__title">Pourquoi choisir SharePoint Server ?</h2>
-            <p class="chapter__intro">À l'heure du tout-cloud, <span class="pill pill--server">Server</span> reste pertinent pour les organisations qui veulent un <strong>contrôle total</strong> sur leur infrastructure, leurs données et leurs personnalisations. Cinq usages le justifient le plus souvent.</p>
+            <p class="chapter__intro">À l'heure du tout-cloud, <span class="pill pill--server">Server</span> reste pertinent pour les organisations qui veulent un <strong>contrôle total</strong> sur leur infrastructure, leurs données et leurs personnalisations.</p>
 
-            <h3>1 · Intranet d'entreprise</h3>
-            <p>Construire un <strong>portail intranet entièrement sur mesure</strong>, calé sur l'identité visuelle et les processus de l'entreprise, sans les limites du SaaS.</p>
-            <ul>
-                <li><strong>Portails thématiques</strong> — sites dédiés par département (RH, Finance, DSI…) avec actualités, annuaires, formulaires de demandes et FAQ. Chacun a son design, ses droits et ses workflows.</li>
-                <li><strong>Communication centralisée</strong> — un point d'entrée unique où chacun retrouve informations stratégiques, directives et événements, sans multiplier outils et emails de diffusion.</li>
-                <li><strong>Personnalisation profonde</strong> — contrairement à Online, Server autorise du développement farm-level (solutions full-trust, web parts .NET, accès direct aux bases) pour des besoins très spécifiques.</li>
-            </ul>
+            <h3>1 · Intranet d'entreprise sur mesure</h3>
+            <p>Portails thématiques par département, communication centralisée, développement farm-level (solutions full-trust, web parts .NET, accès direct aux bases) impossible en Online.</p>
 
-            <h3>2 · Gestion documentaire</h3>
-            <p>Remplacer les <strong>partages réseau</strong> (lecteurs <code>Z:</code>, <code>G:</code>…) par un système structuré, sécurisé et traçable, accessible depuis Office.</p>
+            <h3>2 · Gestion documentaire avancée</h3>
             <ul>
-                <li><strong>Versioning</strong> — à chaque modification, SharePoint conserve X versions du document. L'intérêt est concret : si vous supprimez 10 000 lignes par erreur sans vous en rendre compte et que vous enregistrez, vous revenez simplement à une version antérieure pour tout restaurer.</li>
-                <li><strong>Validation par workflow</strong> — un document modifié doit être approuvé, par exemple par un supérieur : le <em>workflow</em> lui envoie une notification, il valide, et la nouvelle version devient disponible. Aucun échange d'email manuel.</li>
-                <li><strong>Métadonnées</strong> — champs personnalisés (type, projet, statut, échéance) pour classer et retrouver précisément, là où un dossier réseau n'offre qu'un nom de fichier.</li>
-                <li><strong>Permissions fines</strong> — droits définis au niveau du site, de la bibliothèque, du dossier ou du fichier ; on peut briser l'héritage pour ouvrir un seul document à un prestataire, sans exposer le reste.</li>
-                <li><strong>Au-delà des lecteurs réseau</strong> — là où <code>Z:</code> et <code>G:</code> n'offrent ni versioning, ni recherche, ni workflow, SharePoint fait tout, via une liaison chiffrée entre le poste et le serveur, et reste mappable via <em>OneDrive Sync</em> pour qui préfère l'explorateur Windows.</li>
+                <li><strong>Versioning</strong> — chaque modification conserve X versions. Une suppression accidentelle de milliers de lignes ? On revient à une version antérieure.</li>
+                <li><strong>Validation par workflow</strong> — un document modifié doit être approuvé avant publication ; le workflow envoie la notification et historise chaque décision.</li>
+                <li><strong>Métadonnées</strong> — champs personnalisés (type, projet, statut) pour classer et retrouver, là où un dossier réseau n'offre qu'un nom de fichier.</li>
+                <li><strong>Permissions fines</strong> — droits au niveau du site, de la bibliothèque, du dossier ou du fichier ; héritage sécable à volonté.</li>
             </ul>
 
             <h3>3 · Automatisation des processus</h3>
-            <p>Deux outils orchestrent les workflows métier sans développement lourd. <strong>SharePoint Designer</strong> reste limité au périmètre SharePoint ; <strong>Power Automate</strong> (anciennement <em>Flow</em>) va beaucoup plus loin : il se connecte à toute la suite Microsoft 365 et à des produits externes. C'est lui qu'on privilégie, surtout côté <span class="pill pill--online">Online</span>.</p>
-            <ul>
-                <li><strong>Demandes de congés</strong> — un formulaire déclenche l'envoi au manager, attend l'approbation, met à jour le planning RH et notifie l'agent, sans intervention manuelle.</li>
-                <li><strong>Circuits de validation</strong> — approbations multi-étapes (achats, contrats, notes de frais) ; chaque approbateur reçoit un lien direct, et chaque décision est historisée.</li>
-                <li><strong>Notifications automatiques</strong> — alertes sur modification, échéance de contrat, ajout dans une liste ou franchissement d'un seuil.</li>
-                <li><strong>Synchronisation</strong> — connecteurs vers SAP, Dynamics 365, ServiceNow, SQL… ou BCS pour afficher des données externes dans les listes.</li>
-            </ul>
+            <p><strong>Power Automate</strong> (anciennement Flow) est l'outil privilégié : il se connecte à toute la suite Microsoft 365 et à des produits externes. Exemples : demandes de congés, circuits de validation multi-étapes, synchronisation vers SAP ou Dynamics.</p>
 
             <h4>Exemple vécu — publication sur les réseaux sociaux</h4>
-            <p>Une équipe de <em>community management</em> disposait d'une simple liste SharePoint. Chaque membre y déposait un contenu à publier ; l'ajout déclenchait automatiquement une notification au community manager. Dès qu'il validait l'entrée, le workflow récupérait le contenu et le <strong>publiait tout seul sur tous les réseaux sociaux</strong> de l'entreprise. Un seul flow remplaçait une chaîne entière d'actions manuelles.</p>
+            <p>Une équipe de community management disposait d'une simple liste SharePoint. L'ajout d'un contenu déclenchait automatiquement une notification au community manager qui, dès validation, publiait le contenu sur tous les réseaux sociaux de l'entreprise — sans aucun échange d'email manuel.</p>
 
-            <h3>4 · Partage des données</h3>
-            <p>Un contrôle granulaire du partage, en interne comme avec l'extérieur, avec traçabilité complète.</p>
+            <h3>4 · Partage des données maîtrisé</h3>
             <ul>
-                <li><strong>Partage interne structuré</strong> — sites, sous-sites et bibliothèques avec groupes distincts (Propriétaires, Membres, Visiteurs) ; chaque service cloisonné, le commun mutualisé via des sites hub.</li>
-                <li><strong>Partage externe contrôlé</strong> — inviter un prestataire sur un seul dossier via un lien sécurisé, sans ouvrir le reste de l'environnement.</li>
-                <li><strong>Journalisation &amp; audit</strong> — chaque accès, modification ou téléchargement est enregistré, exploitable pour la conformité (RGPD, ISO 27001…).</li>
-                <li><strong>Intégration Active Directory</strong> — les groupes AD sont directement réutilisés ; un départ de l'entreprise révoque automatiquement tous les accès.</li>
+                <li>Partage interne structuré par groupes (Propriétaires / Membres / Visiteurs).</li>
+                <li>Partage externe contrôlé via lien sécurisé sur un seul dossier.</li>
+                <li>Journalisation complète : chaque accès, modification ou téléchargement est enregistré.</li>
+                <li>Intégration Active Directory : un départ révoque automatiquement tous les accès.</li>
             </ul>
 
-            <h3>5 · Un espace de travail par projet et par service</h3>
-            <p>SharePoint sert aussi de cadre de collaboration cloisonné : on crée un site dédié pour chaque besoin, sans mélanger les contenus.</p>
-            <ul>
-                <li><strong>Par projet</strong> — à chaque nouveau projet client, on crée un site SharePoint qui réunit toute la documentation <em>et</em> les outils de suivi (listes de tâches, échéances). Idéal pour la gestion de projet.</li>
-                <li><strong>Par service</strong> — un espace par direction (IT, administratif, commercial avec ses offres et marchés…), chacun avec ses droits et ses processus.</li>
-                <li><strong>Qualité &amp; certification</strong> — une entreprise certifiée peut piloter sa démarche qualité dans un site dédié : circuits d'approbation des documents et archivage sécurisé, indispensables pour les audits de certification.</li>
-            </ul>
+            <h3>5 · Espaces de travail par projet et par service</h3>
+            <p>Un site dédié pour chaque projet client ou service (IT, RH, commercial…), avec ses propres droits, ses listes de tâches et ses circuits d'approbation. Idéal pour la gestion de la qualité et les audits de certification.</p>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
-                <p>Un seul fil rouge : le <strong>contrôle total</strong>. Intranet sur mesure, GED avec versioning, automatisation Power Automate, partage maîtrisé et espaces cloisonnés par projet — autant de raisons de garder la main avec <span class="pill pill--server">Server</span> plutôt que de déléguer à Microsoft.</p>
+                <p>Un seul fil rouge : le <strong>contrôle total</strong>. Intranet sur mesure, GED avec versioning, automatisation Power Automate, partage maîtrisé et espaces cloisonnés — autant de raisons de garder la main avec <span class="pill pill--server">Server</span>.</p>
             </div>
         </section>
 
-        <!-- ===== 09 — PRÉREQUIS D'INSTALLATION ===== -->
+        <!-- ===== 09 ===== -->
         <section class="chapter" id="prerequis">
             <p class="chapter__num">09</p>
             <h2 class="chapter__title">Prérequis d'installation</h2>
-            <p class="chapter__intro">Avant d'installer SharePoint Server (édition Subscription), quatre familles de prérequis doivent être réunies : <strong>matériel</strong>, <strong>logiciel</strong>, <strong>topologie</strong> et <strong>dépendances d'environnement</strong>. Voici l'essentiel, d'après la documentation Microsoft.</p>
+            <p class="chapter__intro">Avant d'installer SharePoint Server (édition Subscription), quatre familles de prérequis doivent être réunies : <strong>matériel</strong>, <strong>logiciel</strong>, <strong>topologie</strong> et <strong>dépendances d'environnement</strong>.</p>
 
             <h3>1 · Matériel</h3>
-            <p>Les valeurs ci-dessous sont les <strong>minimums Microsoft</strong>. Le processeur est toujours <strong>64 bits, 4 cœurs</strong> ; c'est la RAM qui varie selon le rôle et l'usage.</p>
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr><th>Scénario</th><th>Processeur</th><th>RAM</th><th>Disque</th></tr>
-                    </thead>
+                    <thead><tr><th>Scénario</th><th>Processeur</th><th>RAM</th><th>Disque</th></tr></thead>
                     <tbody>
                         <tr><td>Mono-serveur (dev / éval, services minimaux)</td><td>64 bits, 4 cœurs</td><td>16 Go</td><td>80 Go système + 100 Go data</td></tr>
                         <tr><td>Mono-serveur (recette, tous les services)</td><td>64 bits, 4 cœurs</td><td>24 Go</td><td>80 Go système + 100 Go data</td></tr>
-                        <tr><td>Serveur en ferme multi-niveaux (dev / éval)</td><td>64 bits, 4 cœurs</td><td>12 Go</td><td>80 Go système + 80 Go data</td></tr>
-                        <tr><td>Serveur en ferme multi-niveaux (production, tous services)</td><td>64 bits, 4 cœurs</td><td>16 Go</td><td>80 Go système + 80 Go data</td></tr>
+                        <tr><td>Serveur en ferme (dev / éval)</td><td>64 bits, 4 cœurs</td><td>12 Go</td><td>80 Go système + 80 Go data</td></tr>
+                        <tr><td>Serveur en ferme (production)</td><td>64 bits, 4 cœurs</td><td>16 Go</td><td>80 Go système + 80 Go data</td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="note"><strong>Pratique courante.</strong> En production réelle, prévoir <strong>32 Go de RAM ou plus</strong> par serveur d'applications (Recherche et profils utilisateurs sont gourmands), des <strong>SSD</strong> pour SQL Server, et conserver un espace libre égal à <strong>deux fois la RAM</strong>. En dessous des minimums, le support Microsoft est limité.</p>
+            <p class="note">En production réelle : prévoir 32 Go de RAM ou plus par serveur d'applications, des SSD pour SQL Server, et un espace libre égal à deux fois la RAM.</p>
 
             <h3>2 · Logiciel</h3>
             <ul>
-                <li><strong>Système d'exploitation</strong> — Windows Server <strong>2019, 2022 ou 2025</strong> (Standard ou Datacenter), avec interface graphique (<em>Desktop Experience</em>) ou en <em>Server Core</em>.</li>
-                <li><strong>Base de données</strong> — SQL Server (Standard ou Enterprise) compatible niveau 150 : <strong>SQL Server 2019 CU5+</strong> ou <strong>SQL Server 2022</strong>.</li>
-                <li><strong>Framework</strong> — Microsoft <strong>.NET Framework 4.8</strong>.</li>
-                <li><strong>Rôle serveur</strong> — Web Server (<strong>IIS</strong>) et ses composants, plus les fonctionnalités WCF / WAS.</li>
-                <li><strong>Prérequis additionnels</strong> — installés automatiquement par <code>prerequisiteinstaller.exe</code> : .NET 4.8, <strong>Visual C++ 2015-2022 Redistributable (x64)</strong>, rôle IIS et fonctionnalités associées.</li>
-                <li><strong>Navigateurs</strong> — navigateurs modernes à jour (Edge, Chrome, Firefox, Safari).</li>
-            </ul>
-            <p class="note">Microsoft ne supporte pas l'installation d'Office et de SharePoint Server SE sur la <strong>même machine</strong>.</p>
-
-            <h3>3 · Topologie d'installation</h3>
-            <p>Deux grands choix au moment de déployer — détaillés au <a href="#architecture">chapitre 06</a> :</p>
-            <ul>
-                <li><strong>Mono-serveur</strong> (<em>single-server farm</em>) — SharePoint et SQL Server sur une seule machine. Simple à monter ; adapté au développement, aux tests et aux petites charges. C'est typiquement le cas d'une <strong>VM de laboratoire</strong>.</li>
-                <li><strong>Multi-serveurs</strong> (<em>MinRole</em>) — les rôles sont répartis sur des serveurs dédiés : <strong>Front-end</strong>, <strong>Application</strong>, <strong>Distributed Cache</strong>, <strong>Search</strong> et <strong>Custom</strong>, avec un <strong>SQL Server dédié</strong> (souvent en Always On pour la haute disponibilité). C'est la topologie de production.</li>
+                <li><strong>OS</strong> — Windows Server 2019, 2022 ou 2025 (Standard ou Datacenter).</li>
+                <li><strong>Base de données</strong> — SQL Server 2019 CU5+ ou SQL Server 2022 (Standard ou Enterprise).</li>
+                <li><strong>Framework</strong> — Microsoft .NET Framework 4.8.</li>
+                <li><strong>Rôle serveur</strong> — Web Server (IIS) et ses composants.</li>
+                <li><strong>Prérequis additionnels</strong> — installés automatiquement par <code>prerequisiteinstaller.exe</code>.</li>
             </ul>
 
-            <h3>4 · Autres dépendances (environnement)</h3>
+            <h3>3 · Autres dépendances</h3>
             <ul>
-                <li><strong>Active Directory Domain Services</strong> — les serveurs doivent être membres d'un domaine ; les comptes de service y sont créés.</li>
-                <li><strong>DNS</strong> — résolution des noms et enregistrements pour les URLs des applications web (<em>Alternate Access Mappings</em>).</li>
-                <li><strong>Certificats SSL/TLS</strong> — pour publier les applications web en <strong>HTTPS</strong>.</li>
-                <li><strong>Comptes de service dédiés</strong>, en moindre privilège :
-                    <ul>
-                        <li>Compte d'installation (<em>setup</em>) — administrateur local + droits SQL (<code>dbcreator</code>, <code>securityadmin</code>) ;</li>
-                        <li>Compte de la ferme (<em>farm account</em>) ;</li>
-                        <li>Comptes de pools d'applications (<em>app pool</em>) ;</li>
-                        <li>Compte du service de recherche ;</li>
-                        <li>Compte d'accès au contenu.</li>
-                    </ul>
-                </li>
-                <li><strong>SMTP</strong> — pour les emails sortants (alertes, workflows) — optionnel.</li>
-                <li><strong>Synchronisation horaire (NTP)</strong> — cohérence d'horloge entre tous les serveurs de la ferme.</li>
+                <li><strong>Active Directory Domain Services</strong> — les serveurs doivent être membres d'un domaine.</li>
+                <li><strong>DNS</strong> — résolution des noms et enregistrements pour les URLs des applications web.</li>
+                <li><strong>Comptes de service dédiés</strong> en moindre privilège : setup, farm account, app pool, recherche, accès au contenu.</li>
+                <li><strong>Certificats SSL/TLS</strong> — pour publier les applications web en HTTPS.</li>
             </ul>
 
             <div class="takeaway">
                 <p class="takeaway__label">À retenir</p>
-                <p>Quatre piliers avant l'installation : <strong>matériel</strong> (4 cœurs, 16–24 Go, disques séparés), <strong>logiciel</strong> (Windows Server 2019–2025 + SQL Server 2019 CU5 / 2022 + .NET 4.8), <strong>topologie</strong> (mono-serveur ou MinRole multi-serveurs) et <strong>dépendances</strong> (AD, DNS, SSL, comptes de service dédiés). Les chiffres sont des minimums — la production réclame davantage.</p>
+                <p>Quatre piliers avant l'installation : <strong>matériel</strong> (4 cœurs, 16–24 Go min), <strong>logiciel</strong> (Windows Server 2019–2025 + SQL Server 2019 CU5 / 2022 + .NET 4.8), <strong>topologie</strong> (mono-serveur ou MinRole) et <strong>dépendances</strong> (AD, DNS, SSL, comptes de service dédiés).</p>
             </div>
         </section>
 
-        <!-- ===== 10 — BACKUP ===== -->
+        <!-- ===== 10 ===== -->
         <section class="chapter" id="backup">
             <p class="chapter__num">10</p>
             <h2 class="chapter__title">Sauvegarde des données</h2>
-            <p class="chapter__intro">Le point que beaucoup découvrent trop tard : <strong>Microsoft ne garantit pas la restauration de votre contenu</strong>. Sa responsabilité porte sur la disponibilité de la plateforme — pas sur la récupération de vos fichiers après une erreur ou une attaque.</p>
+            <p class="chapter__intro">Le point que beaucoup découvrent trop tard : <strong>Microsoft ne garantit pas la restauration de votre contenu</strong>. Sa responsabilité porte sur la disponibilité de la plateforme — pas sur la récupération de vos fichiers.</p>
 
-            <div class="takeaway takeaway--warn" style="margin-top:0; margin-bottom:28px;">
+            <div class="takeaway takeaway--warn" style="margin-top:0;margin-bottom:24px;">
                 <p class="takeaway__label">Le point à connaître</p>
-                <p>Cela ne concerne pas que SharePoint : c'est vrai pour <strong>tout Microsoft 365</strong> — vos boîtes mail <strong>Exchange</strong>, vos fichiers <strong>OneDrive</strong>, vos espaces <strong>Teams</strong>. Vous êtes <strong>garant de vos données</strong>. Si vous perdez tout, c'est votre business et votre problème — pas celui de Microsoft.</p>
+                <p>Cela concerne tout Microsoft 365 : vos boîtes <strong>Exchange</strong>, vos fichiers <strong>OneDrive</strong>, vos espaces <strong>Teams</strong>. Vous êtes <strong>garant de vos données</strong>. Si vous perdez tout, c'est votre business et votre problème — pas celui de Microsoft.</p>
             </div>
 
             <h3>Ce que Microsoft fait — et ne fait pas</h3>
-            <p>Microsoft garantit une <strong>qualité de service</strong> élevée : le contenu est hébergé sur des datacenters redondés dans plusieurs régions, donc le service est très fiable. Mais « fiable » ne veut pas dire « sauvegardé pour vous ».</p>
             <ul>
-                <li><strong>Fait</strong> — réplication géographique des datacenters, SLA de 99,9 %, corbeille à deux niveaux (93 jours).</li>
-                <li><strong>Ne fait pas</strong> — restauration granulaire après le délai de rétention, protection contre la suppression malveillante d'une collection entière, sauvegarde vers un stockage indépendant.</li>
+                <li><strong>Fait</strong> — réplication géographique des datacenters, SLA 99,9 %, corbeille à deux niveaux (93 jours).</li>
+                <li><strong>Ne fait pas</strong> — restauration granulaire après le délai, protection contre suppression malveillante d'une collection entière, backup vers un stockage indépendant.</li>
             </ul>
-
-            <h3>Les risques réels</h3>
-            <ul>
-                <li><strong>Erreur humaine</strong> — un administrateur qui supprime l'intégralité d'une boîte mail ou d'un site : le contenu part avec, et au-delà des 93 jours il est irrécupérable.</li>
-                <li><strong>Attaque</strong> — un ransomware chiffre vos données ; sans sauvegarde indépendante, il n'y a rien à restaurer.</li>
-                <li><strong>Souveraineté</strong> — Microsoft 365 est un produit américain. Une décision géopolitique ou une coupure de service échappe totalement à votre contrôle.</li>
-            </ul>
-            <p>Et ce n'est pas propre à Microsoft : <strong>Google ne garantit pas davantage vos données</strong> sur Google Workspace. Sauvegarder soi-même n'est pas une obligation légale, mais c'est <em>chaudement recommandé</em> dans tous les cas.</p>
 
             <h3>Le modèle de responsabilité partagée</h3>
-            <p>En SaaS, la sécurité des <strong>données et de leur sauvegarde</strong> reste à la charge de l'entreprise. Microsoft protège la plateforme, pas votre contenu métier : une stratégie de sauvegarde tierce est indispensable.</p>
-            <p class="note">À noter : en mode <span class="pill pill--server">Server</span> (sur site), la question du backup « coule de source » — on sauvegarde déjà ses propres serveurs. C'est en <span class="pill pill--online">Online</span> que l'oubli est le plus fréquent, car on suppose à tort que « le cloud s'en occupe ».</p>
-
             <div class="cards">
                 <div class="card card--ms">
                     <h4>Géré par Microsoft</h4>
@@ -1079,23 +871,14 @@
                 </div>
             </div>
 
-            <h3>Solution recommandée : Synology + Active Backup for Microsoft 365</h3>
-            <p>Aujourd'hui, <strong>quasiment tous les outils de backup</strong> intègrent une brique Microsoft 365 — la sauvegarde du cloud est devenue simple. Un <strong>NAS Synology</strong> avec <strong>Active Backup for Microsoft 365</strong> (inclus dans DSM, sans surcoût) sauvegarde automatiquement et de façon incrémentale :</p>
-            <ul>
-                <li>Les <strong>bibliothèques SharePoint</strong> (fichiers, listes, pages)</li>
-                <li>Les boîtes <strong>Exchange Online</strong> (emails, calendriers, contacts)</li>
-                <li>Les espaces <strong>OneDrive</strong> de chaque utilisateur</li>
-                <li>Les conversations et fichiers <strong>Teams</strong></li>
-            </ul>
-            <p>Les sauvegardes restent sur le NAS, avec restauration granulaire (fichier, dossier, site entier) depuis une console web. La donnée reste sur un stockage que vous contrôlez — un atout pour le <strong>RGPD</strong>.</p>
-            <p class="note"><strong>Question de contexte.</strong> Un Synology reste une solution « costaud » : une grande structure l'intègre facilement à son infrastructure, une petite épicerie un peu moins. À l'inverse, Microsoft 365 et OneDrive se déploient partout, de l'épicerie à l'entreprise nationale. Mais pour les petites structures, un simple Synology qui sauvegarde M365 fonctionne très bien — on l'installe et on n'en parle plus.</p>
+            <h3>Solution recommandée : Synology + Active Backup for M365</h3>
+            <p>Un <strong>NAS Synology</strong> avec <strong>Active Backup for Microsoft 365</strong> (inclus dans DSM, sans surcoût) sauvegarde automatiquement et de façon incrémentale les bibliothèques SharePoint, les boîtes Exchange Online, les espaces OneDrive et Teams. Restauration granulaire depuis une console web. La donnée reste sur un stockage que vous contrôlez — un atout pour le <strong>RGPD</strong>.</p>
 
             <h3>Bonnes pratiques</h3>
             <ul>
                 <li>Appliquer la règle <strong>3-2-1</strong> : 3 copies, sur 2 supports, dont 1 hors site.</li>
                 <li>Tester régulièrement les restaurations — une sauvegarde jamais testée n'en est pas une.</li>
                 <li>Définir une <strong>RPO</strong> (perte acceptable) et une <strong>RTO</strong> (délai de restauration) adaptées à l'activité.</li>
-                <li>Activer le <strong>versioning</strong> SharePoint (50 versions minimum) en complément du backup.</li>
             </ul>
 
             <div class="takeaway">
@@ -1104,24 +887,546 @@
             </div>
         </section>
 
-    </main>
+        <!-- ══════════════════════════════════════════════════════════
+             SECTION : PRATIQUE
+             ══════════════════════════════════════════════════════════ -->
+        <div class="section-banner section-banner--pratique">
+            <div class="section-banner__accent"></div>
+            <div>
+                <div class="section-banner__label">Pratique</div>
+                <div class="section-banner__desc">Lab Windows Server 2025 (EN) · domaine <code>orion.local</code> · réseau 172.16.0.x/24</div>
+            </div>
+        </div>
 
+        <!-- ===== P01 ===== -->
+        <section class="chapter chapter--pratique" id="sql-prep">
+            <p class="chapter__num">P01</p>
+            <h2 class="chapter__title">Préparer SQL Server 2022 pour SharePoint</h2>
+            <p class="chapter__intro">SharePoint Server ne fonctionne qu'avec Microsoft SQL Server. Cette étape se réalise sur <strong>SRV-SQL01</strong> (172.16.0.3), joint au domaine <code>orion.local</code>, avant toute installation SharePoint.</p>
+
+            <h3>Comptes de service à créer (sur SRV-AD01)</h3>
+            <p>Avant l'installation, créer ces quatre comptes dans Active Directory — <em>Users and Computers</em> → OU de votre choix :</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Compte</th><th>Rôle</th><th>Droits SQL nécessaires</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>orion\sp_farm</code></td><td>Compte de ferme SharePoint</td><td>dbcreator, securityadmin</td></tr>
+                        <tr><td><code>orion\sp_setup</code></td><td>Installation et admin local</td><td>dbcreator, securityadmin</td></tr>
+                        <tr><td><code>orion\sp_services</code></td><td>App pools des applications web</td><td>Aucun (SharePoint les attribue)</td></tr>
+                        <tr><td><code>orion\sp_search</code></td><td>Service de recherche</td><td>Aucun (SharePoint les attribue)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note">Ajouter <code>orion\sp_setup</code> en tant qu'administrateur local sur SRV-Sharepooint01 (via GPO ou Local Users and Groups).</p>
+
+            <h3>Installation de SQL Server 2022</h3>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Lancer le setup SQL Server 2022</strong>
+                        <p>Monter l'ISO SQL Server 2022, exécuter <code>setup.exe</code> en administrateur. Choisir <strong>Installation → New SQL Server stand-alone installation</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Sélectionner les fonctionnalités</strong>
+                        <p>Cocher uniquement <strong>Database Engine Services</strong>. Les outils de management (SSMS) s'installent séparément.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Configurer la collation — étape critique</strong>
+                        <p>Dans <em>Server Configuration → Collation</em>, cliquer <strong>Customize</strong> et saisir exactement : <code>SQL_Latin1_General_CP1_CI_AS</code>. SharePoint refusera de s'installer avec toute autre collation.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__body">
+                        <strong>Configurer l'authentification et les admins SQL</strong>
+                        <p>Choisir <strong>Windows Authentication Mode</strong>. Dans <em>SQL Server Administrators</em>, ajouter <code>orion\sp_farm</code> et <code>orion\sp_setup</code>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">05</div>
+                    <div class="step__body">
+                        <strong>Activer le protocole TCP/IP</strong>
+                        <p>Ouvrir <strong>SQL Server Configuration Manager</strong> → SQL Server Network Configuration → Protocols for MSSQLSERVER → activer <strong>TCP/IP</strong>. Redémarrer le service SQL Server.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">06</div>
+                    <div class="step__body">
+                        <strong>Ouvrir le pare-feu Windows</strong>
+                        <p>Créer une règle entrante autorisant <strong>TCP 1433</strong> (port SQL Server par défaut).</p>
+                        <div class="terminal">
+                            <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">PowerShell — SRV-SQL01</span></div>
+                            <pre class="terminal__code">New-NetFirewallRule -DisplayName "SQL Server" `
+    -Direction Inbound -Protocol TCP `
+    -LocalPort 1433 -Action Allow</pre>
+                        </div>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">07</div>
+                    <div class="step__body">
+                        <strong>Limiter la mémoire SQL Server</strong>
+                        <p>Dans SSMS, clic droit sur le serveur → Properties → Memory. Définir <em>Maximum server memory</em> à <strong>RAM totale − 2 Go</strong> (ex. : 14 336 Mo pour 16 Go de RAM). Évite que SQL Server n'affame l'OS.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p>Ne jamais utiliser le compte <code>sa</code> pour SharePoint. Windows Authentication est plus sécurisé et recommandé par Microsoft. Mettre les fichiers de données (<code>.mdf</code>), de journaux (<code>.ldf</code>) et tempdb sur des disques séparés si possible.</p>
+            </div>
+        </section>
+
+        <!-- ===== P02 ===== -->
+        <section class="chapter chapter--pratique" id="sp-install">
+            <p class="chapter__num">P02</p>
+            <h2 class="chapter__title">Installer SharePoint Server SE sur Windows Server 2025</h2>
+            <p class="chapter__intro">Installation complète sur <strong>SRV-Sharepooint01</strong> (172.16.0.2), joint à <code>orion.local</code>. Toutes les commandes se font en étant connecté en tant que <code>orion\sp_setup</code> (admin local + droits SQL).</p>
+
+            <h3>Vérifications avant de démarrer</h3>
+            <ul>
+                <li>La VM est jointe au domaine <code>orion.local</code> et a redémarré.</li>
+                <li>IP statique : 172.16.0.2 ; DNS primaire : 172.16.0.1 (SRV-AD01).</li>
+                <li>SRV-SQL01 est accessible : <code>Test-NetConnection -ComputerName SRV-SQL01 -Port 1433</code> doit répondre <em>TcpTestSucceeded : True</em>.</li>
+                <li>IPv6 désactivé sur la carte réseau.</li>
+            </ul>
+
+            <h3>Étapes d'installation</h3>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Monter l'ISO SharePoint Server SE et lancer les prérequis</strong>
+                        <p>Exécuter <code>prerequisiteinstaller.exe</code> en administrateur. Il installe automatiquement .NET Framework 4.8, Visual C++ Redistributable, WCF Activation, et configure le rôle IIS avec tous les composants requis. Le serveur peut redémarrer 2 à 3 fois — laisser le processus se terminer jusqu'au message <em>Installation complete</em>.</p>
+                        <div class="tip" style="margin-top:8px;">
+                            <p class="tip__label">Sans accès internet</p>
+                            <p>Utiliser le switch <code>/unattended</code> avec les chemins locaux vers chaque prérequis. Voir la documentation Microsoft pour la liste complète des packages offline.</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Lancer setup.exe</strong>
+                        <p>Exécuter <code>setup.exe</code> en administrateur. Entrer la clé produit (ou laisser vide pour la version d'évaluation 180 jours). Accepter le CLUF → sélectionner le chemin d'installation → <strong>Install Now</strong>. Durée : 10 à 20 minutes. À la fin, <strong>décocher</strong> l'option "Run the SharePoint Products Configuration Wizard now" avant de fermer.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Exécuter l'assistant de configuration de ferme (PSConfig)</strong>
+                        <p>Démarrer → Microsoft SharePoint Products → <strong>SharePoint Products Configuration Wizard</strong> (en administrateur). Répondre aux écrans :</p>
+                        <ul>
+                            <li><em>Connect to a server farm</em> → <strong>Create a new server farm</strong></li>
+                            <li><em>Database server</em> → <code>SRV-SQL01</code></li>
+                            <li><em>Database name</em> → <code>SP_Config</code> (laisser par défaut)</li>
+                            <li><em>Username</em> → <code>orion\sp_farm</code> + mot de passe</li>
+                            <li><em>Passphrase</em> → choisir une passphrase forte et la <strong>noter précieusement</strong> — indispensable pour ajouter d'autres serveurs à la ferme.</li>
+                            <li><em>Central Administration Web Application port</em> → <code>2016</code></li>
+                            <li><em>Authentication provider</em> → NTLM</li>
+                        </ul>
+                        <p>Cliquer <strong>Next</strong>, puis <strong>Finish</strong>. La configuration exécute 10 tâches (3 à 8 minutes).</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__body">
+                        <strong>Accéder à l'Administration centrale</strong>
+                        <p>Ouvrir un navigateur sur SRV-Sharepooint01 (ou depuis le poste hôte via 172.16.0.2) :</p>
+                        <div class="terminal">
+                            <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">Navigateur</span></div>
+                            <pre class="terminal__code">http://SRV-Sharepooint01:2016</pre>
+                        </div>
+                        <p>Se connecter avec <code>orion\sp_setup</code>. La page d'accueil de l'Administration centrale confirme que l'installation est réussie.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p><strong>Ne jamais installer SharePoint sous un compte Domain Admin</strong> — utiliser <code>sp_setup</code> avec uniquement les droits nécessaires. Conserver la passphrase de ferme dans un gestionnaire de mots de passe : sans elle, il est impossible d'ajouter un serveur à la ferme ultérieurement.</p>
+            </div>
+        </section>
+
+        <!-- ===== P03 ===== -->
+        <section class="chapter chapter--pratique" id="ferme-config">
+            <p class="chapter__num">P03</p>
+            <h2 class="chapter__title">Configurer la ferme</h2>
+            <p class="chapter__intro">La ferme est créée, mais les services sont vides. Cette étape configure les comptes gérés, démarre les services essentiels, crée les applications de service et prépare le DNS pour accéder au futur intranet.</p>
+
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Enregistrer les comptes gérés (Managed Accounts)</strong>
+                        <p>Dans l'Administration centrale : <em>Security → General Security → Configure Managed Accounts → Register Managed Account</em>. Enregistrer <code>orion\sp_services</code> et <code>orion\sp_search</code>. SharePoint peut ainsi gérer les rotations de mots de passe automatiquement.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Démarrer les services sur le serveur</strong>
+                        <p><em>System Settings → Manage Services on Server</em>. Démarrer au minimum :</p>
+                        <ul>
+                            <li>Microsoft SharePoint Foundation Web Application</li>
+                            <li>SharePoint Server Search</li>
+                            <li>User Profile Service (si profils AD requis)</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Créer les applications de service</strong>
+                        <p><em>Application Management → Manage Service Applications → New</em>. Créer dans cet ordre :</p>
+                        <ul>
+                            <li><strong>Managed Metadata Service</strong> — taxonomies partagées entre collections de sites.</li>
+                            <li><strong>Search Service Application</strong> — moteur d'indexation full-text. Compte de service : <code>orion\sp_search</code>.</li>
+                            <li><strong>User Profile Service Application</strong> — synchronisation des profils avec Active Directory.</li>
+                        </ul>
+                        <p class="note">Alternativement : <em>Home → Farm Configuration Wizard</em> crée automatiquement les applications de service de base en quelques clics.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__body">
+                        <strong>Créer l'enregistrement DNS pour l'intranet</strong>
+                        <p>Sur <strong>SRV-AD01</strong>, ouvrir <em>DNS Manager</em> → zone de recherche directe <code>orion.local</code> → Nouveau Hôte (A) :</p>
+                        <div class="terminal">
+                            <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">PowerShell — SRV-AD01</span></div>
+                            <pre class="terminal__code">Add-DnsServerResourceRecordA -ZoneName "orion.local" `
+    -Name "intranet" -IPv4Address "172.16.0.2"</pre>
+                        </div>
+                        <p>L'URL <code>http://intranet</code> sera résolu vers SRV-Sharepooint01.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p>Configurer les applications de service <strong>manuellement</strong> plutôt qu'avec l'assistant automatique : c'est plus long, mais vous comprenez exactement ce que vous créez et pouvez choisir les comptes de service appropriés pour chaque service.</p>
+            </div>
+        </section>
+
+        <!-- ===== P04 ===== -->
+        <section class="chapter chapter--pratique" id="premier-site">
+            <p class="chapter__num">P04</p>
+            <h2 class="chapter__title">Créer son premier site</h2>
+            <p class="chapter__intro">La ferme est opérationnelle. Il faut maintenant créer une <strong>application web</strong> (le conteneur IIS), puis une <strong>collection de sites</strong> (le premier espace utilisable), et enfin configurer une bibliothèque de documents.</p>
+
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Créer l'application web</strong>
+                        <p><em>Central Admin → Application Management → Manage Web Applications → New</em>. Paramètres :</p>
+                        <ul>
+                            <li>IIS Web Site Name : <code>SharePoint - 80</code></li>
+                            <li>Port : <code>80</code> — URL : <code>http://intranet</code></li>
+                            <li>Application Pool : créer nouveau → nom <code>SharePoint Web Services Default</code> → compte <code>orion\sp_services</code></li>
+                            <li>Database Server : <code>SRV-SQL01</code> — Database Name : <code>SP_Content_Intranet</code></li>
+                        </ul>
+                        <p>Cliquer <strong>OK</strong> (1 à 2 minutes).</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Créer la collection de sites</strong>
+                        <p><em>Application Management → Create Site Collections</em>. Paramètres :</p>
+                        <ul>
+                            <li>Web Application : <code>http://intranet</code></li>
+                            <li>Title : <code>Intranet Orion</code></li>
+                            <li>URL : racine <code>/</code></li>
+                            <li>Template : <strong>Team Site</strong> (onglet Collaboration)</li>
+                            <li>Primary Site Collection Administrator : <code>orion\sp_setup</code></li>
+                        </ul>
+                        <p>Cliquer <strong>OK</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Accéder au site et créer une bibliothèque</strong>
+                        <p>Ouvrir <code>http://intranet</code> dans un navigateur. Se connecter en tant que <code>orion\sp_setup</code>. Le site d'équipe s'affiche. Aller dans <em>Site Contents → New → Document Library</em>, nommer la bibliothèque <code>Procédures IT</code> et cliquer <strong>Create</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__body">
+                        <strong>Ajouter des métadonnées et tester le versioning</strong>
+                        <p>Dans les paramètres de la bibliothèque (<em>Library Settings</em>) : activer le <strong>versioning</strong> (major versions), ajouter une colonne de choix <code>Statut</code> (En cours / Validé / Archivé). Uploader un document, le modifier, vérifier l'historique des versions dans <em>Version History</em>.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p>Créer une <strong>application web distincte</strong> par usage (intranet, extranet, sites publics) plutôt que tout mettre dans la même. Chaque application web a son propre app pool, son mode d'authentification et ses bases de contenu — la séparation limite les risques et facilite la sauvegarde.</p>
+            </div>
+        </section>
+
+        <!-- ===== P05 ===== -->
+        <section class="chapter chapter--pratique" id="droits">
+            <p class="chapter__num">P05</p>
+            <h2 class="chapter__title">Gérer les droits et les permissions</h2>
+            <p class="chapter__intro">SharePoint propose un modèle de permissions granulaire : des <strong>niveaux de permission</strong> (ensembles d'actions autorisées) assignés à des <strong>groupes</strong> à différents niveaux de la hiérarchie (site, bibliothèque, dossier, document).</p>
+
+            <h3>Groupes SharePoint par défaut</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Groupe</th><th>Niveau de permission</th><th>Ce que l'utilisateur peut faire</th></tr></thead>
+                    <tbody>
+                        <tr><td>Intranet Orion Owners</td><td>Full Control</td><td>Tout faire, y compris gérer les permissions et supprimer le site</td></tr>
+                        <tr><td>Intranet Orion Members</td><td>Edit / Contribute</td><td>Ajouter, modifier et supprimer des documents et éléments de listes</td></tr>
+                        <tr><td>Intranet Orion Visitors</td><td>Read</td><td>Lire uniquement — aucune modification possible</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Ajouter des utilisateurs ou groupes AD</h3>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Via l'interface SharePoint</strong>
+                        <p><em>Site Settings → People and Groups → Intranet Orion Members → New → Add Users</em>. Saisir <code>orion\Domain Users</code> (ou le groupe AD souhaité) et valider. Le groupe AD est directement réutilisé — pas besoin de recréer les utilisateurs dans SharePoint.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Couper l'héritage sur une bibliothèque</strong>
+                        <p>Dans <em>Library Settings → Permissions for this document library → Stop Inheriting Permissions</em>. Retirer le groupe Members, ajouter uniquement les utilisateurs autorisés. Idéal pour cloisonner un dossier confidentiel (RH, contrats) tout en conservant les autres bibliothèques accessibles à tous.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Créer un niveau de permission personnalisé</strong>
+                        <p><em>Site Settings → Site Permissions → Permission Levels → Add a Permission Level</em>. Exemple : niveau "Lecture + Ajout uniquement" — cocher View Items, Add Items, sans Edit ou Delete. Utile pour des utilisateurs qui soumettent des documents sans pouvoir modifier l'existant.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p><strong>Toujours assigner des permissions à des groupes, jamais à des utilisateurs individuels.</strong> Lorsqu'un collaborateur quitte l'entreprise, il suffit de désactiver son compte AD : SharePoint révoque tous ses accès automatiquement, sans avoir à parcourir chaque site et bibliothèque manuellement.</p>
+            </div>
+        </section>
+
+        <!-- ===== P06 ===== -->
+        <section class="chapter chapter--pratique" id="automatisation">
+            <p class="chapter__num">P06</p>
+            <h2 class="chapter__title">Automatiser avec SharePoint Designer</h2>
+            <p class="chapter__intro">Sur un lab SharePoint Server SE sans connexion internet, <strong>SharePoint Designer 2013</strong> est l'outil d'automatisation natif disponible gratuitement. Il permet de créer des workflows déclenchés par des événements sur les listes et bibliothèques.</p>
+
+            <h3>Installer SharePoint Designer 2013</h3>
+            <p>Télécharger <strong>SharePoint Designer 2013</strong> (gratuit, version x64) depuis le centre de téléchargement Microsoft. L'installer sur le poste d'administration ou directement sur SRV-Sharepooint01. La version 2013 est compatible avec SharePoint Server SE en mode classique.</p>
+
+            <h3>Créer un workflow d'approbation</h3>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Ouvrir le site dans SharePoint Designer</strong>
+                        <p>Lancer SharePoint Designer → <em>Open Site</em> → entrer l'URL <code>http://intranet</code>. Se connecter avec <code>orion\sp_setup</code>. Le site se charge dans le volet gauche.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
+                        <strong>Créer le workflow</strong>
+                        <p><em>Workflows → List Workflow</em> → sélectionner la liste ou bibliothèque cible (ex. "Procédures IT") → nommer le workflow "Approbation Procédure". Choisir la plateforme <strong>SharePoint 2013 Workflow</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__body">
+                        <strong>Ajouter les actions</strong>
+                        <p>Dans le Designer de workflow, ajouter les actions :</p>
+                        <ul>
+                            <li><em>Set Field in Current Item</em> → champ Statut = "En attente d'approbation"</li>
+                            <li><em>Send an Email</em> → configurer le destinataire (responsable), l'objet et le corps du message avec des champs dynamiques (<em>Current Item:Title</em>)</li>
+                            <li><em>Start Approval Process</em> → désigner l'approbateur et le délai</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__body">
+                        <strong>Configurer le déclencheur et publier</strong>
+                        <p>Dans les <em>Workflow Settings</em>, cocher <strong>Start workflow automatically when an item is created</strong>. Cliquer <strong>Publish</strong>. Le workflow est actif : uploader un document dans "Procédures IT" pour le tester.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="tip">
+                <p class="tip__label">Pour aller plus loin — Power Automate</p>
+                <p>En production hybride (SharePoint Server SE connecté à Microsoft 365), <strong>Power Automate</strong> remplace avantageusement SharePoint Designer : il supporte des centaines de connecteurs (SAP, Salesforce, Dynamics…), propose des approbations modernes sur mobile et s'administre via une interface web. Il requiert une licence Microsoft 365 et la passerelle de données on-premises.</p>
+            </div>
+        </section>
+
+        <!-- ===== P07 ===== -->
+        <section class="chapter chapter--pratique" id="powershell-admin">
+            <p class="chapter__num">P07</p>
+            <h2 class="chapter__title">Administrer SharePoint via PowerShell</h2>
+            <p class="chapter__intro">Deux outils PowerShell coexistent : le <strong>SharePoint Management Shell</strong> (classique, natif sur le serveur) et <strong>PnP PowerShell</strong> (moderne, multiplateforme). Les deux s'utilisent quotidiennement en administration.</p>
+
+            <h3>SharePoint Management Shell</h3>
+            <p>À lancer sur <strong>SRV-Sharepooint01</strong> via le menu Démarrer → Microsoft SharePoint Products → <strong>SharePoint Management Shell</strong> (en administrateur). Doit être exécuté avec un compte administrateur de ferme.</p>
+
+            <div class="terminal">
+                <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">SharePoint Management Shell</span></div>
+                <pre class="terminal__code"># Informations sur la ferme
+Get-SPFarm | Select BuildVersion, Status
+
+# Lister les applications web
+Get-SPWebApplication | Select Url, Name
+
+# Lister toutes les collections de sites
+Get-SPSite -Limit All | Select Url, ContentDatabase
+
+# Créer une nouvelle collection de sites
+New-SPSite -Url "http://intranet/sites/rh" `
+    -Name "Ressources Humaines" `
+    -Template "STS#0" `
+    -OwnerAlias "orion\sp_setup"
+
+# Lister les listes d'un site
+$web = Get-SPWeb "http://intranet"
+$web.Lists | Select Title, ItemCount
+$web.Dispose()
+
+# Sauvegarder la ferme complète
+Backup-SPFarm -Directory "\\SRV-SQL01\Backup\SP" `
+    -BackupMethod Full -Verbose</pre>
+            </div>
+
+            <h3>PnP PowerShell</h3>
+            <p>Module moderne installable sur n'importe quelle machine avec PowerShell 7+. Plus expressif que le Management Shell pour les opérations sur le contenu.</p>
+
+            <div class="terminal">
+                <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">PowerShell 7 — n'importe quelle machine</span></div>
+                <pre class="terminal__code"># Installation du module
+Install-Module PnP.PowerShell -Scope CurrentUser
+
+# Connexion à SharePoint Server on-premises
+Connect-PnPOnline -Url "http://intranet" -CurrentCredentials
+
+# Lister toutes les listes
+Get-PnPList | Select Title, ItemCount, Hidden
+
+# Récupérer les éléments d'une liste
+Get-PnPListItem -List "Procédures IT" | Select Id, FieldValues
+
+# Uploader un fichier
+Add-PnPFile -Path "C:\docs\procedure.docx" `
+    -Folder "Procédures IT"
+
+# Ajouter un utilisateur à un groupe
+Add-PnPGroupMember `
+    -LoginName "orion\jdupont" `
+    -Identity "Intranet Orion Members"
+
+# Créer un sous-site
+New-PnPWeb -Title "Projets" -Url "projets" `
+    -Template "STS#0" -Locale 1036</pre>
+            </div>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p>Scripter toutes les opérations répétitives (création de sites, attribution de droits, provisionnement de bibliothèques) plutôt que de les faire via l'interface. Les scripts deviennent la documentation vivante de l'environnement et permettent de reconstruire la configuration rapidement après un incident.</p>
+            </div>
+        </section>
+
+        <!-- ===== P08 ===== -->
+        <section class="chapter chapter--pratique" id="backup-restore">
+            <p class="chapter__num">P08</p>
+            <h2 class="chapter__title">Sauvegarder et restaurer SharePoint Server</h2>
+            <p class="chapter__intro">Une stratégie de backup SharePoint Server SE s'articule sur <strong>trois niveaux complémentaires</strong> : la ferme complète, les bases de contenu SQL, et les collections de sites individuelles. Chaque niveau répond à un besoin de restauration différent.</p>
+
+            <h3>Niveau 1 — Backup de la ferme complète</h3>
+            <p>Couvre la configuration, les applications de service et toutes les bases de contenu. Utile pour reconstruire un environnement entier.</p>
+            <div class="terminal">
+                <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">SharePoint Management Shell</span></div>
+                <pre class="terminal__code"># Backup complet de la ferme
+Backup-SPFarm -Directory "E:\Backups\SP\$(Get-Date -f yyyyMMdd)" `
+    -BackupMethod Full -Verbose
+
+# Backup différentiel (plus rapide, nécessite un full préalable)
+Backup-SPFarm -Directory "E:\Backups\SP\$(Get-Date -f yyyyMMdd)" `
+    -BackupMethod Differential</pre>
+            </div>
+
+            <h3>Niveau 2 — Backup SQL des bases de contenu</h3>
+            <p>La méthode la plus rapide et la plus fiable. Se fait directement via SQL Server Management Studio ou PowerShell sur SRV-SQL01.</p>
+            <div class="terminal">
+                <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">PowerShell — SRV-SQL01</span></div>
+                <pre class="terminal__code"># Importer le module SQL Server
+Import-Module SqlServer
+
+# Backup de la base de configuration (toujours la sauvegarder)
+Backup-SqlDatabase -ServerInstance "SRV-SQL01" `
+    -Database "SP_Config" `
+    -BackupFile "E:\Backups\SQL\SP_Config_$(Get-Date -f yyyyMMdd).bak"
+
+# Backup de la base de contenu intranet
+Backup-SqlDatabase -ServerInstance "SRV-SQL01" `
+    -Database "SP_Content_Intranet" `
+    -BackupFile "E:\Backups\SQL\SP_Content_Intranet_$(Get-Date -f yyyyMMdd).bak"</pre>
+            </div>
+
+            <h3>Niveau 3 — Export d'une collection de sites</h3>
+            <p>Granularité maximale : exporter une seule collection, ses sous-sites, sa sécurité et les versions de documents.</p>
+            <div class="terminal">
+                <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">SharePoint Management Shell</span></div>
+                <pre class="terminal__code"># Export d'une collection de sites
+Export-SPWeb -Identity "http://intranet" `
+    -Path "E:\Backups\Sites\intranet_$(Get-Date -f yyyyMMdd).cmp" `
+    -IncludeUserSecurity -Versions 4 -Verbose
+
+# Restauration d'une collection dans une application web existante
+Import-SPWeb -Identity "http://intranet/sites/restore-test" `
+    -Path "E:\Backups\Sites\intranet_20260630.cmp" -Force
+
+# Monter une base de contenu SQL restaurée
+Mount-SPContentDatabase -Name "SP_Content_Intranet" `
+    -WebApplication "http://intranet" `
+    -DatabaseServer "SRV-SQL01"</pre>
+            </div>
+
+            <h3>Planifier les sauvegardes automatiques</h3>
+            <p>Sur Windows Server 2025, créer une tâche planifiée via le <em>Task Scheduler</em> ou une règle <strong>Windows Server Backup</strong> qui déclenche le script PowerShell de backup chaque nuit. Stocker les sauvegardes sur un partage réseau (<code>\\SRV-AD01\Backup</code>) pour respecter la règle 3-2-1 : donnée locale + partage réseau + NAS Synology hors site.</p>
+
+            <div class="tip">
+                <p class="tip__label">Bonne pratique</p>
+                <p>Toujours <strong>tester la restauration</strong> avant d'en avoir besoin : monter une base de contenu restaurée sur un port alternatif (ex. <code>http://intranet:8080</code>) et vérifier que les données sont récupérables. Une sauvegarde non testée n'est qu'une hypothèse. Planifier ce test au minimum une fois par trimestre.</p>
+            </div>
+
+            <div class="takeaway">
+                <p class="takeaway__label">À retenir</p>
+                <p>Trois niveaux de backup : <strong>ferme complète</strong> (Backup-SPFarm), <strong>bases SQL</strong> (le plus fiable, Backup-SqlDatabase) et <strong>collection de sites</strong> (Export-SPWeb). La règle <strong>3-2-1</strong> reste la norme. Tester les restaurations régulièrement — une sauvegarde jamais testée n'est pas une sauvegarde.</p>
+            </div>
+        </section>
+
+    </main>
 </div>
 
-<!-- ============================================================
-     PIED DE PAGE
-     ============================================================ -->
 <footer>
     <p><strong>SharePoint — Guide d'apprentissage</strong></p>
-    <p>© 2026 · Server vs Online · Réalisé en HTML &amp; CSS</p>
+    <p>© 2026 · Théorie &amp; Pratique · Réalisé en HTML &amp; CSS</p>
 </footer>
 
-<!-- ============================================================
-     INTERACTIONS — progression + sommaire actif
-     ============================================================ -->
 <script>
     (function () {
-        // Barre de progression de lecture
         var bar = document.getElementById('progressBar');
         var doc = document.documentElement;
         function onScroll() {
@@ -1132,7 +1437,6 @@
         document.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
-        // Surlignage du chapitre courant dans le sommaire
         var links = Array.prototype.slice.call(document.querySelectorAll('.toc__link'));
         var map = {};
         links.forEach(function (l) { map[l.getAttribute('href').slice(1)] = l; });
