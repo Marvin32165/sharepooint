@@ -919,48 +919,109 @@
             </div>
             <p class="note">Ajouter <code>orion\sp_setup</code> en tant qu'administrateur local sur SRV-Sharepooint01 (via GPO ou Local Users and Groups).</p>
 
-            <h3>Installation de SQL Server 2022</h3>
+            <h3>L'assistant d'installation, fenêtre par fenêtre</h3>
+            <p>Monter l'ISO SQL Server 2022, exécuter <code>setup.exe</code> en administrateur. Le <strong>SQL Server Installation Center</strong> s'ouvre : onglet <em>Installation</em> → <strong>New SQL Server standalone installation or add features to an existing installation</strong>. L'assistant enchaîne alors les fenêtres suivantes.</p>
             <ol class="steps">
                 <li class="step">
                     <div class="step__num">01</div>
                     <div class="step__body">
-                        <strong>Lancer le setup SQL Server 2022</strong>
-                        <p>Monter l'ISO SQL Server 2022, exécuter <code>setup.exe</code> en administrateur. Choisir <strong>Installation → New SQL Server stand-alone installation</strong>.</p>
+                        <strong>Edition / Product Key</strong>
+                        <p>Choisir l'édition. Pour le lab : <strong>Developer</strong> (gratuite, fonctionnalités Enterprise — idéale en test) ou <strong>Evaluation</strong> (180 jours). En production, sélectionner <em>Enter the product key</em> et coller la clé Standard ou Enterprise. Cliquer <strong>Next</strong>.</p>
                     </div>
                 </li>
                 <li class="step">
                     <div class="step__num">02</div>
                     <div class="step__body">
-                        <strong>Sélectionner les fonctionnalités</strong>
-                        <p>Cocher uniquement <strong>Database Engine Services</strong>. Les outils de management (SSMS) s'installent séparément.</p>
+                        <strong>License Terms</strong>
+                        <p>Cocher <em>I accept the license terms</em>. Cliquer <strong>Next</strong>.</p>
                     </div>
                 </li>
                 <li class="step">
                     <div class="step__num">03</div>
                     <div class="step__body">
-                        <strong>Configurer la collation — étape critique</strong>
-                        <p>Dans <em>Server Configuration → Collation</em>, cliquer <strong>Customize</strong> et saisir exactement : <code>SQL_Latin1_General_CP1_CI_AS</code>. SharePoint refusera de s'installer avec toute autre collation.</p>
+                        <strong>Microsoft Update</strong>
+                        <p>Optionnel : cocher <em>Use Microsoft Update to check for updates</em> pour récupérer les derniers correctifs. Sur un lab isolé sans internet, laisser décoché. <strong>Next</strong>.</p>
                     </div>
                 </li>
                 <li class="step">
                     <div class="step__num">04</div>
                     <div class="step__body">
-                        <strong>Configurer l'authentification et les admins SQL</strong>
-                        <p>Choisir <strong>Windows Authentication Mode</strong>. Dans <em>SQL Server Administrators</em>, ajouter <code>orion\sp_farm</code> et <code>orion\sp_setup</code>.</p>
+                        <strong>Install Rules</strong>
+                        <p>L'assistant vérifie automatiquement les prérequis (pare-feu, .NET, etc.). Tout doit être au vert <em>Passed</em>. Un avertissement <em>Windows Firewall</em> est normal et sans gravité ici. <strong>Next</strong>.</p>
                     </div>
                 </li>
                 <li class="step">
                     <div class="step__num">05</div>
                     <div class="step__body">
-                        <strong>Activer le protocole TCP/IP</strong>
-                        <p>Ouvrir <strong>SQL Server Configuration Manager</strong> → SQL Server Network Configuration → Protocols for MSSQLSERVER → activer <strong>TCP/IP</strong>. Redémarrer le service SQL Server.</p>
+                        <strong>Azure Extension for SQL Server</strong>
+                        <p>Nouveau dans SQL Server 2022. Sur un lab hors-ligne, <strong>décocher</strong> <em>Azure Extension for SQL Server</em> (sinon l'assistant exige des identifiants Azure Arc et bloque). <strong>Next</strong>.</p>
                     </div>
                 </li>
                 <li class="step">
                     <div class="step__num">06</div>
                     <div class="step__body">
+                        <strong>Feature Selection</strong>
+                        <p>Cocher uniquement <strong>Database Engine Services</strong> — c'est le seul composant requis par SharePoint. Inutile d'installer Analysis Services, Reporting Services ou Integration Services. Les outils SSMS s'installent séparément. <strong>Next</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">07</div>
+                    <div class="step__body">
+                        <strong>Instance Configuration</strong>
+                        <p>Garder <strong>Default instance</strong> (nom <code>MSSQLSERVER</code>). SharePoint se connecte alors simplement à <code>SRV-SQL01</code> sans suffixe d'instance. <strong>Next</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">08</div>
+                    <div class="step__body">
+                        <strong>Server Configuration → onglet <em>Service Accounts</em></strong>
+                        <p>Laisser les comptes de service par défaut (<code>NT Service\MSSQLSERVER</code>). Cocher <strong>Grant Perform Volume Maintenance Task privilege</strong> pour le moteur SQL — accélère la création et l'extension des bases (Instant File Initialization). <strong>Ne pas quitter cette fenêtre</strong> : passer à l'onglet Collation.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">09</div>
+                    <div class="step__body">
+                        <strong>Server Configuration → onglet <em>Collation</em> — étape critique</strong>
+                        <p>Cliquer sur l'onglet <strong>Collation</strong>, puis <strong>Customize…</strong>. Choisir <em>Windows collation designator and sort order</em> et sélectionner exactement <code>Latin1_General_CI_AS</code> — ce qui correspond à <code>SQL_Latin1_General_CP1_CI_AS</code> requis par SharePoint (Case-Insensitive, Accent-Sensitive). <strong>SharePoint refuse toute autre collation.</strong> <strong>Next</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">10</div>
+                    <div class="step__body">
+                        <strong>Database Engine Configuration → onglet <em>Server Configuration</em></strong>
+                        <p>Sélectionner <strong>Windows authentication mode</strong> (recommandé par Microsoft pour SharePoint). Sous <em>Specify SQL Server administrators</em>, cliquer <strong>Add…</strong> et ajouter <code>orion\sp_farm</code>, <code>orion\sp_setup</code> et votre compte admin. <em>Add Current User</em> ajoute le compte connecté.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">11</div>
+                    <div class="step__body">
+                        <strong>Database Engine Configuration → onglets <em>Data Directories</em>, <em>TempDB</em> &amp; <em>Memory</em></strong>
+                        <p><em>Data Directories</em> : si plusieurs disques, séparer les fichiers de données (<code>.mdf</code>), de journaux (<code>.ldf</code>) et les backups. <em>TempDB</em> : laisser le nombre de fichiers proposé (généralement 4 à 8). <em>Memory</em> : définir <strong>Max Server Memory</strong> à <em>RAM totale − 2 à 4 Go</em> (ex. 12288 Mo pour 16 Go) — évite que SQL n'affame l'OS. Cocher la case de recommandation. <strong>Next</strong>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">12</div>
+                    <div class="step__body">
+                        <strong>Ready to Install → Installation → Complete</strong>
+                        <p>L'écran récapitule toutes les options. Vérifier la <strong>collation</strong> dans le résumé, puis cliquer <strong>Install</strong>. L'installation dure 10 à 20 minutes. À la fin, tous les composants affichent <em>Succeeded</em> — cliquer <strong>Close</strong>.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Configuration post-installation</h3>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__body">
+                        <strong>Activer le protocole TCP/IP</strong>
+                        <p>Ouvrir <strong>SQL Server Configuration Manager</strong> → <em>SQL Server Network Configuration → Protocols for MSSQLSERVER</em> → clic droit sur <strong>TCP/IP</strong> → <em>Enable</em>. Redémarrer ensuite le service <em>SQL Server (MSSQLSERVER)</em> dans <em>SQL Server Services</em>.</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__body">
                         <strong>Ouvrir le pare-feu Windows</strong>
-                        <p>Créer une règle entrante autorisant <strong>TCP 1433</strong> (port SQL Server par défaut).</p>
+                        <p>Créer une règle entrante autorisant <strong>TCP 1433</strong> (port SQL Server par défaut) pour que SRV-Sharepooint01 puisse se connecter.</p>
                         <div class="terminal">
                             <div class="terminal__bar"><span class="terminal__dot" style="background:#FF5F57"></span><span class="terminal__dot" style="background:#FEBC2E"></span><span class="terminal__dot" style="background:#28C840"></span><span class="terminal__title">PowerShell — SRV-SQL01</span></div>
                             <pre class="terminal__code">New-NetFirewallRule -DisplayName "SQL Server" `
@@ -970,10 +1031,10 @@
                     </div>
                 </li>
                 <li class="step">
-                    <div class="step__num">07</div>
+                    <div class="step__num">03</div>
                     <div class="step__body">
-                        <strong>Limiter la mémoire SQL Server</strong>
-                        <p>Dans SSMS, clic droit sur le serveur → Properties → Memory. Définir <em>Maximum server memory</em> à <strong>RAM totale − 2 Go</strong> (ex. : 14 336 Mo pour 16 Go de RAM). Évite que SQL Server n'affame l'OS.</p>
+                        <strong>Installer SSMS et vérifier la connexion</strong>
+                        <p>Installer <strong>SQL Server Management Studio</strong> (téléchargement séparé). S'y connecter en local, puis vérifier que la mémoire max est bien plafonnée (clic droit sur le serveur → <em>Properties → Memory</em>). Depuis SRV-Sharepooint01, tester : <code>Test-NetConnection SRV-SQL01 -Port 1433</code>.</p>
                     </div>
                 </li>
             </ol>
